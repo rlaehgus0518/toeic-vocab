@@ -235,6 +235,17 @@
       border-radius: 14px;
       line-height: 1.5;
       color: #334155;
+      font-weight: 800;
+    }
+    #quizAnswer.correct {
+      background: #dbeafe;
+      color: #1d4ed8;
+      border: 1px solid #93c5fd;
+    }
+    #quizAnswer.wrong {
+      background: #fee2e2;
+      color: #dc2626;
+      border: 1px solid #fca5a5;
     }
     #wrongList {
       margin-top: 10px;
@@ -317,7 +328,7 @@
 
     <section class="panel quiz">
       <h2>랜덤 복습 문제</h2>
-      <p>뜻을 보고 영어 단어를 직접 입력하세요. 오답은 자동 저장되고, 오답이 모두 없어지면 오늘 단어 10개가 외움 완료 처리됩니다.</p>
+      <p>뜻을 보고 영어 단어를 직접 입력하세요. 일반 복습은 10문제로 진행되고, 이미 나온 문제는 다시 나오지 않습니다. 10개를 다 풀면 오답풀이로 자동 이동합니다.</p>
       <div id="quizModeText">일반 복습 모드</div>
       <div id="quizQuestion">아직 문제가 없습니다.</div>
 
@@ -537,6 +548,14 @@
       }
     }
 
+    function shuffleArray(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
     function normalizeAnswer(text) {
       return String(text || "").trim().toLowerCase().replace(/\s+/g, "");
     }
@@ -589,27 +608,40 @@
       document.getElementById("quizModeText").textContent = "일반 복습 모드";
       document.getElementById("quizQuestion").textContent = "아직 문제가 없습니다.";
       document.getElementById("quizInput").value = "";
-      document.getElementById("quizAnswer").style.display = "none";
-      document.getElementById("quizAnswer").textContent = "";
+      const answerBox = document.getElementById("quizAnswer");
+      answerBox.style.display = "none";
+      answerBox.textContent = "";
+      answerBox.className = "";
     }
 
     function startNormalQuiz() {
       reviewMode = false;
       answeredCorrect = new Set();
+
+      // 오늘 단어 10개를 한 번씩만 출제합니다.
       quizPool = getTodayWords().map((item, i) => ({
         ...item,
         globalIndex: getStartIndex() + i
       }));
-      document.getElementById("quizModeText").textContent = "일반 복습 모드: 오늘 단어 10개를 모두 맞히면 외움 완료됩니다.";
+
+      // 출제 순서만 랜덤으로 섞고, 이미 나온 문제는 다시 나오지 않게 합니다.
+      shuffleArray(quizPool);
+
+      document.getElementById("quizModeText").textContent = "일반 복습 모드: 10문제 중 0문제 풀이";
       nextQuiz();
     }
 
     function startWrongQuiz() {
       const wrongs = getWrongIndexes();
       if (wrongs.length === 0) {
+        markTodayComplete();
         document.getElementById("quizModeText").textContent = "오답이 없습니다.";
-        document.getElementById("quizQuestion").textContent = "현재 저장된 오답이 없습니다. 일반 복습 문제를 먼저 풀어보세요.";
-        document.getElementById("quizAnswer").style.display = "none";
+        document.getElementById("quizQuestion").textContent = "오답이 없어서 오늘 단어 10개가 외움 완료 처리되었습니다.";
+        const answerBox = document.getElementById("quizAnswer");
+        answerBox.style.display = "block";
+        answerBox.className = "correct";
+        answerBox.textContent = "완료! 오늘 학습을 끝냈습니다.";
+        render();
         return;
       }
 
@@ -619,36 +651,67 @@
         globalIndex
       })).filter((item) => item.word);
 
-      document.getElementById("quizModeText").textContent = "오답풀이 모드: 저장된 오답을 모두 다시 맞혀보세요.";
+      shuffleArray(quizPool);
+
+      document.getElementById("quizModeText").textContent = "오답풀이 모드: 저장된 오답 " + quizPool.length + "개를 다시 풉니다.";
       nextQuiz();
     }
 
     function nextQuiz() {
       document.getElementById("quizInput").value = "";
       document.getElementById("quizInput").focus();
-      document.getElementById("quizAnswer").style.display = "none";
+
+      const answerBox = document.getElementById("quizAnswer");
+      answerBox.style.display = "none";
+      answerBox.className = "";
 
       if (quizPool.length === 0) {
         currentQuiz = null;
 
-        if (reviewMode && getWrongIndexes().length === 0) {
-          markTodayComplete();
-          document.getElementById("quizModeText").textContent = "오답풀이 완료";
-          document.getElementById("quizQuestion").textContent = "오답이 모두 없어졌습니다. 오늘 단어 10개가 외움 완료 처리되었습니다.";
-        } else if (!reviewMode && answeredCorrect.size === getTodayWords().length && getWrongIndexes().length === 0) {
-          markTodayComplete();
-          document.getElementById("quizModeText").textContent = "일반 복습 완료";
-          document.getElementById("quizQuestion").textContent = "오늘 단어 10개를 모두 맞혔습니다. 외움 완료 처리되었습니다.";
-        } else {
-          document.getElementById("quizQuestion").textContent = "문제가 끝났습니다. 오답이 있으면 오답풀이를 눌러 다시 풀어보세요.";
+        if (reviewMode) {
+          if (getWrongIndexes().length === 0) {
+            markTodayComplete();
+            document.getElementById("quizModeText").textContent = "오답풀이 완료";
+            document.getElementById("quizQuestion").textContent = "오답이 모두 없어졌습니다. 오늘 단어 10개가 외움 완료 처리되었습니다.";
+            answerBox.style.display = "block";
+            answerBox.className = "correct";
+            answerBox.textContent = "완료! 오늘 학습을 끝냈습니다.";
+          } else {
+            document.getElementById("quizModeText").textContent = "오답풀이 1회 완료";
+            document.getElementById("quizQuestion").textContent = "아직 오답이 남아 있습니다. 오답풀이 버튼을 눌러 다시 풀어보세요.";
+          }
+          render();
+          return;
         }
 
-        render();
+        // 일반 복습 10문제를 다 풀면 자동으로 오답풀이로 넘어갑니다.
+        const wrongs = getWrongIndexes();
+        if (wrongs.length > 0) {
+          document.getElementById("quizModeText").textContent = "일반 복습 10문제 완료 → 오답풀이로 자동 이동";
+          document.getElementById("quizQuestion").textContent = "오답 " + wrongs.length + "개가 있어 오답풀이를 시작합니다.";
+          setTimeout(startWrongQuiz, 800);
+        } else {
+          markTodayComplete();
+          document.getElementById("quizModeText").textContent = "일반 복습 완료";
+          document.getElementById("quizQuestion").textContent = "10문제를 모두 맞혔습니다. 오늘 단어 10개가 외움 완료 처리되었습니다.";
+          answerBox.style.display = "block";
+          answerBox.className = "correct";
+          answerBox.textContent = "완료! 오답 없이 통과했습니다.";
+          render();
+        }
         return;
       }
 
-      const randomIndex = Math.floor(Math.random() * quizPool.length);
-      currentQuiz = quizPool.splice(randomIndex, 1)[0];
+      currentQuiz = quizPool.shift();
+
+      if (!reviewMode) {
+        const solved = 10 - quizPool.length;
+        document.getElementById("quizModeText").textContent = "일반 복습 모드: 10문제 중 " + solved + "문제 풀이";
+      } else {
+        const totalWrongNow = getWrongIndexes().length;
+        document.getElementById("quizModeText").textContent = "오답풀이 모드: 남은 오답 " + totalWrongNow + "개";
+      }
+
       document.getElementById("quizQuestion").textContent =
         "Q. '" + currentQuiz.meaning + "'에 해당하는 영어 단어는?";
     }
@@ -668,6 +731,7 @@
       if (isCorrect) {
         answeredCorrect.add(currentQuiz.globalIndex);
         removeWrong(currentQuiz.globalIndex);
+        answerBox.className = "correct";
         answerBox.textContent = "정답입니다! " + currentQuiz.word;
 
         setTimeout(() => {
@@ -678,13 +742,12 @@
         }, 650);
       } else {
         addWrong(currentQuiz.globalIndex);
+        answerBox.className = "wrong";
         answerBox.textContent =
           "오답입니다. 입력한 답: " + (userAnswer || "빈칸") +
           " / 정답: " + currentQuiz.word;
 
-        if (!reviewMode) {
-          setTimeout(nextQuiz, 1000);
-        }
+        setTimeout(nextQuiz, 1100);
       }
     }
 
@@ -697,7 +760,9 @@
       addWrong(currentQuiz.globalIndex);
       const answer = document.getElementById("quizAnswer");
       answer.style.display = "block";
+      answer.className = "wrong";
       answer.textContent = "정답: " + currentQuiz.word + " / 예문: " + currentQuiz.example + " / 정답 보기를 눌렀기 때문에 오답에 저장되었습니다.";
+      setTimeout(nextQuiz, 1300);
     }
 
     function markTodayComplete() {
