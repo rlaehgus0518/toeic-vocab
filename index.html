@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TOEIC 매일 10단어</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Pretendard", "Noto Sans KR", Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #eef4ff 0%, #f8fbff 45%, #fff7ed 100%);
+      color: #1f2937;
+      padding: 24px;
+    }
+
+    .app {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .title-box h1 {
+      font-size: 32px;
+      color: #1d4ed8;
+      margin-bottom: 6px;
+      letter-spacing: -0.5px;
+    }
+
+    .title-box p {
+      color: #64748b;
+      font-size: 15px;
+    }
+
+    .day-control {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid #dbeafe;
+      border-radius: 20px;
+      padding: 10px 14px;
+      box-shadow: 0 10px 25px rgba(37, 99, 235, 0.08);
+    }
+
+    button, select {
+      border: none;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    button {
+      background: #2563eb;
+      color: white;
+      font-weight: 700;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      background: #1d4ed8;
+    }
+
+    .ghost {
+      background: #e0ecff;
+      color: #1d4ed8;
+    }
+
+    .ghost:hover {
+      background: #bfdbfe;
+    }
+
+    select {
+      background: white;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+      font-weight: 700;
+      outline: none;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .summary-card {
+      background: rgba(255,255,255,0.86);
+      border: 1px solid rgba(191,219,254,0.9);
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+    }
+
+    .summary-card span {
+      font-size: 13px;
+      color: #64748b;
+      font-weight: 700;
+    }
+
+    .summary-card strong {
+      display: block;
+      font-size: 25px;
+      margin-top: 7px;
+      color: #0f172a;
+    }
+
+    .progress-wrap {
+      height: 12px;
+      background: #e5edff;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 14px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #2563eb, #f59e0b);
+      border-radius: 999px;
+      transition: width 0.25s ease;
+    }
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .toolbar-left, .toolbar-right {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .words-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+    }
+
+    .word-card {
+      position: relative;
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 24px;
+      padding: 18px;
+      min-height: 190px;
+      box-shadow: 0 16px 35px rgba(15, 23, 42, 0.08);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+
+    .word-card::before {
+      content: "";
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: #dbeafe;
+      top: -48px;
+      right: -42px;
+      opacity: 0.7;
+    }
+
+    .word-number {
+      color: #2563eb;
+      font-weight: 800;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .word {
+      font-size: 24px;
+      font-weight: 900;
+      color: #111827;
+      word-break: break-word;
+      line-height: 1.15;
+      margin-bottom: 8px;
+    }
+
+    .pronounce {
+      font-size: 13px;
+      color: #64748b;
+      margin-bottom: 12px;
+    }
+
+    .meaning {
+      font-size: 16px;
+      line-height: 1.45;
+      color: #334155;
+      min-height: 46px;
+      transition: 0.2s;
+    }
+
+    .meaning.hidden {
+      filter: blur(6px);
+      user-select: none;
+    }
+
+    .example {
+      margin-top: 10px;
+      font-size: 13px;
+      line-height: 1.45;
+      color: #64748b;
+      background: #f8fafc;
+      border-radius: 14px;
+      padding: 10px;
+    }
+
+    .card-bottom {
+      display: flex;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .small-btn {
+      flex: 1;
+      padding: 9px 10px;
+      font-size: 13px;
+    }
+
+    .known-btn {
+      background: #f1f5f9;
+      color: #334155;
+    }
+
+    .known-btn.done {
+      background: #16a34a;
+      color: white;
+    }
+
+    .speak-btn {
+      background: #fff7ed;
+      color: #c2410c;
+    }
+
+    .quiz-box {
+      margin-top: 18px;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid #fed7aa;
+      border-radius: 24px;
+      padding: 18px;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+    }
+
+    .quiz-box h2 {
+      font-size: 20px;
+      color: #c2410c;
+      margin-bottom: 8px;
+    }
+
+    .quiz-question {
+      font-size: 18px;
+      font-weight: 800;
+      margin: 12px 0;
+    }
+
+    .quiz-answer {
+      display: none;
+      color: #334155;
+      line-height: 1.5;
+      margin-top: 8px;
+      background: #fff7ed;
+      padding: 12px;
+      border-radius: 14px;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 18px;
+      color: #94a3b8;
+      font-size: 13px;
+    }
+
+    @media (max-width: 1000px) {
+      .words-grid { grid-template-columns: repeat(2, 1fr); }
+      .summary { grid-template-columns: 1fr; }
+      header { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 14px; }
+      .words-grid { grid-template-columns: 1fr; }
+      .title-box h1 { font-size: 26px; }
+      .day-control { width: 100%; justify-content: space-between; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="title-box">
+        <h1>TOEIC 매일 10단어</h1>
+        <p>하루에 딱 10개씩, 뜻을 가리고 확인하면서 외우는 단어장</p>
+      </div>
+      <div class="day-control">
+        <button class="ghost" onclick="changeDay(-1)">이전</button>
+        <select id="daySelect" onchange="setDay(Number(this.value))"></select>
+        <button class="ghost" onclick="changeDay(1)">다음</button>
+      </div>
+    </header>
+
+    <section class="summary">
+      <div class="summary-card">
+        <span>오늘의 학습 날짜</span>
+        <strong id="todayText">Day 1</strong>
+        <div class="progress-wrap">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+      </div>
+      <div class="summary-card">
+        <span>외운 단어</span>
+        <strong><span id="knownCount">0</span> / 10개</strong>
+      </div>
+      <div class="summary-card">
+        <span>현재 학습 범위</span>
+        <strong id="rangeText">1번 ~ 10번</strong>
+      </div>
+    </section>
+
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <button onclick="toggleAllMeanings()" id="toggleMeaningBtn">뜻 전체 가리기</button>
+        <button class="ghost" onclick="resetToday()">오늘 체크 초기화</button>
+      </div>
+      <div class="toolbar-right">
+        <button onclick="makeQuiz()">랜덤 문제 내기</button>
+      </div>
+    </div>
+
+    <main class="words-grid" id="wordsGrid"></main>
+
+    <section class="quiz-box">
+      <h2>랜덤 복습 문제</h2>
+      <p>버튼을 누르면 오늘 단어 10개 중 하나가 문제로 나옵니다.</p>
+      <div class="quiz-question" id="quizQuestion">아직 문제가 없습니다.</div>
+      <button class="ghost" onclick="showQuizAnswer()">정답 보기</button>
+      <div class="quiz-answer" id="quizAnswer"></div>
+    </section>
+
+    <footer>체크 상태는 이 브라우저에 자동 저장됩니다.</footer>
+  </div>
+
+  <script>
+    const rawVocab = `
+accommodate|수용하다, 숙박시키다
+adjacent|인접한, 가까운
+agenda|의제, 안건
+allocate|할당하다, 배분하다
+applicant|지원자, 신청자
+approve|승인하다
+assignment|업무, 과제, 배정
+attend|참석하다
+benefit|혜택, 이익
+candidate|후보자, 지원자
+capacity|수용 능력, 용량
+comply|준수하다, 따르다
+consecutive|연속적인
+considerable|상당한
+contract|계약, 계약서
+convenient|편리한
+deadline|마감일
+defective|결함이 있는
+delay|지연, 연기하다
+department|부서
+designate|지정하다
+discount|할인
+efficient|효율적인
+eligible|자격이 있는
+encourage|장려하다, 격려하다
+ensure|보장하다, 확실히 하다
+estimate|견적, 추정하다
+expand|확장하다
+expense|비용, 지출
+facility|시설
+frequent|빈번한
+inventory|재고, 목록
+invoice|청구서, 송장
+maintain|유지하다, 관리하다
+mandatory|의무적인, 필수의
+notify|알리다, 통지하다
+obtain|얻다, 획득하다
+outstanding|뛰어난, 미지불된
+permit|허가하다, 허가증
+postpone|연기하다
+procedure|절차
+purchase|구매하다, 구매
+recruit|모집하다, 채용하다
+refund|환불
+regarding|~에 관하여
+reliable|믿을 수 있는
+renovate|수리하다, 개조하다
+replace|교체하다
+require|요구하다, 필요로 하다
+reservation|예약
+schedule|일정, 예정하다
+shipment|배송, 선적
+submit|제출하다
+supervisor|관리자, 감독관
+temporary|임시의
+thorough|철저한
+transfer|이전하다, 이동하다
+urgent|긴급한
+vacant|비어 있는
+warranty|보증, 보증서
+absent|결석한, 부재중인
+access|접근, 이용 권한
+account|계좌, 거래처, 설명
+accurate|정확한
+achieve|달성하다
+acknowledge|인정하다, 확인하다
+acquire|획득하다
+activate|작동시키다, 활성화하다
+additional|추가의
+adequate|충분한, 적절한
+adjust|조정하다, 적응하다
+administration|관리, 행정
+advance|진전, 사전의
+advertise|광고하다
+affordable|감당할 수 있는, 저렴한
+agency|대행사, 기관
+agreement|계약, 동의
+alternative|대안, 대체의
+annual|연례의, 매년의
+anticipate|예상하다
+apologize|사과하다
+application|지원서, 신청서
+appointment|약속, 임명
+appreciate|감사하다, 진가를 인정하다
+appropriate|적절한
+approximately|대략
+arrangement|준비, 배열
+assemble|조립하다, 모이다
+assess|평가하다
+assist|돕다
+associate|관련시키다, 동료
+assume|가정하다, 맡다
+assure|보장하다
+attach|첨부하다, 붙이다
+authorize|승인하다, 권한을 주다
+available|이용 가능한
+aware|알고 있는
+balance|잔액, 균형
+branch|지점, 부서
+brief|간단한, 보고하다
+brochure|안내 책자
+budget|예산
+bulk|대량, 대부분
+calculate|계산하다
+cancel|취소하다
+career|경력, 직업
+caution|주의
+certificate|증명서
+chairperson|의장
+charge|요금, 청구하다
+circulate|회람하다, 순환하다
+client|고객
+collaborate|협력하다
+colleague|동료
+commence|시작하다
+commercial|상업의, 광고
+commission|수수료, 위원회
+commitment|약속, 헌신
+commute|통근하다
+compare|비교하다
+compensation|보상, 급여
+competitive|경쟁력 있는
+complete|완료하다, 완전한
+complex|복잡한
+component|부품, 구성 요소
+comprehensive|포괄적인
+concern|우려, 관련되다
+condition|조건, 상태
+conduct|수행하다, 행동
+confirm|확인하다
+conflict|충돌, 갈등
+consider|고려하다
+consult|상담하다
+consumer|소비자
+contact|연락하다, 연락처
+contain|포함하다
+contribute|기여하다
+cooperate|협력하다
+coordinate|조정하다
+corporate|기업의
+costly|비용이 많이 드는
+courier|배송업체, 배달원
+cover|포함하다, 덮다
+credentials|자격, 증명서
+crucial|중요한
+currently|현재
+customize|맞춤 제작하다
+decline|거절하다, 감소하다
+dedicated|헌신적인, 전용의
+deficit|적자, 부족액
+deliberately|고의로, 신중하게
+deliver|배송하다, 전달하다
+demonstrate|보여주다, 입증하다
+deposit|보증금, 입금하다
+describe|묘사하다, 설명하다
+desirable|바람직한
+despite|~에도 불구하고
+determine|결정하다, 알아내다
+develop|개발하다, 발전시키다
+directly|직접적으로
+directory|주소록, 명부
+distribute|배포하다, 분배하다
+diverse|다양한
+document|문서, 기록하다
+domestic|국내의, 가정의
+dramatically|극적으로
+durable|내구성이 있는
+eager|열망하는
+earnings|수익, 소득
+effectively|효과적으로
+electronic|전자의
+elevate|올리다, 승진시키다
+emergency|비상사태
+emphasize|강조하다
+employee|직원
+employer|고용주
+enclose|동봉하다
+encounter|마주치다, 직면하다
+enhance|향상시키다
+enroll|등록하다
+entire|전체의
+entry|입장, 입력 항목
+equipment|장비
+establish|설립하다, 확립하다
+evaluate|평가하다
+eventually|결국
+exceed|초과하다
+excellent|훌륭한
+exceptional|예외적인, 뛰어난
+exhibit|전시하다, 전시회
+expectation|기대
+expertise|전문 지식
+expire|만료되다
+extend|연장하다, 확장하다
+extensive|광범위한
+external|외부의
+familiar|익숙한
+feasible|실현 가능한
+figure|수치, 인물
+finalize|마무리하다
+financial|재정의, 금융의
+firm|회사, 확고한
+flexible|유연한
+fluctuate|변동하다
+focus|집중하다
+forecast|예측, 예보
+former|이전의
+founder|창립자
+fragile|깨지기 쉬운
+fulfill|이행하다, 충족하다
+function|기능, 작동하다
+fund|자금, 자금을 대다
+gain|얻다, 증가
+generate|창출하다, 발생시키다
+genuine|진짜의, 진실한
+gradually|점차적으로
+grant|승인하다, 보조금
+guarantee|보장하다, 보증
+handle|처리하다
+headquarters|본사
+hesitate|망설이다
+hire|고용하다
+immediate|즉각적인
+impact|영향
+implement|시행하다, 구현하다
+imply|암시하다
+improve|개선하다
+incentive|장려금, 혜택
+include|포함하다
+income|소득
+indicate|나타내다
+individual|개인의, 개인
+industry|산업
+inform|알리다
+initial|초기의
+initiative|계획, 주도권
+inspect|검사하다
+install|설치하다
+instruction|지시, 설명서
+insurance|보험
+intend|의도하다
+interest|관심, 이자
+internal|내부의
+interpret|해석하다
+interrupt|방해하다
+introduce|소개하다, 도입하다
+investigate|조사하다
+investment|투자
+issue|문제, 발행하다
+item|품목
+itinerary|여행 일정
+joint|공동의
+journal|잡지, 일지
+labor|노동
+launch|출시하다, 시작하다
+layout|배치, 설계
+lease|임대차 계약
+legal|법률의, 합법적인
+limited|제한된
+location|위치
+loyal|충성스러운
+manage|관리하다
+manufacturer|제조업체
+market|시장, 판매하다
+material|자료, 재료
+measure|측정하다, 조치
+membership|회원 자격
+mention|언급하다
+merge|합병하다
+method|방법
+modify|수정하다
+monitor|감시하다, 확인하다
+negotiate|협상하다
+nominate|지명하다
+notice|공지, 알아차리다
+objective|목표, 객관적인
+occupation|직업
+operate|운영하다, 작동하다
+opportunity|기회
+order|주문, 명령
+organization|조직
+orientation|오리엔테이션, 방향
+outcome|결과
+overall|전반적인
+oversee|감독하다
+participant|참가자
+participate|참여하다
+particularly|특히
+payment|지불, 결제
+performance|실적, 성과
+periodically|주기적으로
+personnel|직원, 인사부
+persuade|설득하다
+policy|정책, 규정
+position|직위, 위치
+potential|잠재적인
+prefer|선호하다
+preparation|준비
+present|제시하다, 참석한
+previous|이전의
+priority|우선 사항
+process|과정, 처리하다
+productive|생산적인
+professional|전문적인, 전문가
+profit|이익
+promote|홍보하다, 승진시키다
+promptly|즉시
+proposal|제안서
+prospective|장래의, 유망한
+provide|제공하다
+publicity|홍보, 광고 효과
+qualification|자격
+quality|품질
+quarterly|분기별의
+quote|견적, 인용하다
+raise|올리다, 모금하다
+rapid|빠른
+receipt|영수증
+recently|최근에
+recommend|추천하다
+record|기록, 기록하다
+reduce|줄이다
+refer|언급하다, 참조하다
+reflect|반영하다
+register|등록하다
+regulation|규정
+reject|거절하다
+relocate|이전하다
+remain|남아 있다
+remind|상기시키다
+renew|갱신하다
+repair|수리하다
+representative|대표자, 직원
+request|요청, 요청하다
+resolve|해결하다
+respond|응답하다
+responsible|책임이 있는
+restore|복구하다
+retail|소매
+retain|유지하다, 보유하다
+retire|은퇴하다
+review|검토하다
+revise|수정하다
+reward|보상, 보상하다
+satisfactory|만족스러운
+security|보안, 안전
+select|선택하다
+senior|상급의, 연장자
+separate|분리된, 분리하다
+service|서비스, 정비
+session|회의, 기간
+severe|심각한
+shortage|부족
+significant|중요한, 상당한
+solution|해결책
+source|출처, 공급처
+specific|구체적인
+specification|사양, 명세서
+staff|직원
+standard|기준, 표준
+statement|명세서, 진술
+stationery|문구류
+strategy|전략
+strict|엄격한
+substantial|상당한
+successful|성공적인
+sufficient|충분한
+supplier|공급업체
+survey|설문 조사
+suspend|중단하다, 정지시키다
+task|업무, 과제
+technical|기술적인
+term|기간, 조건
+transaction|거래
+transportation|교통, 운송
+trend|경향, 추세
+update|갱신하다, 최신 정보
+valid|유효한
+vendor|판매업체
+verify|확인하다
+venue|장소
+volume|양, 용량
+withdraw|철회하다, 인출하다
+workforce|노동 인구, 직원
+workshop|워크숍, 작업장
+`.trim();
+
+    const vocab = rawVocab.split("
+").map((line) => {
+      const [word, meaning] = line.split("|");
+      return {
+        word,
+        pronounce: "듣기 버튼으로 확인",
+        meaning,
+        example: `TOEIC keyword: ${word}`
+      };
+    });
+
+    const wordsPerDay = 10;
+    const totalDays = Math.ceil(vocab.length / wordsPerDay);
+    let currentDay = Number(localStorage.getItem("toeic-current-day")) || 1;
+    let meaningsHidden = false;
+    let currentQuiz = null;
+
+    const daySelect = document.getElementById("daySelect");
+    const wordsGrid = document.getElementById("wordsGrid");
+
+    function initDaySelect() {
+      daySelect.innerHTML = "";
+      for (let i = 1; i <= totalDays; i++) {
+        const option = document.createElement("option");
+        option.value = i;
+        option.textContent = `Day ${i}`;
+        daySelect.appendChild(option);
+      }
+    }
+
+    function getTodayWords() {
+      const start = (currentDay - 1) * wordsPerDay;
+      return vocab.slice(start, start + wordsPerDay);
+    }
+
+    function getStorageKey(index) {
+      return `toeic-known-${index}`;
+    }
+
+    function isKnown(globalIndex) {
+      return localStorage.getItem(getStorageKey(globalIndex)) === "true";
+    }
+
+    function render() {
+      localStorage.setItem("toeic-current-day", currentDay);
+      daySelect.value = currentDay;
+      const start = (currentDay - 1) * wordsPerDay;
+      const todayWords = getTodayWords();
+
+      document.getElementById("todayText").textContent = `Day ${currentDay}`;
+      document.getElementById("rangeText").textContent = `${start + 1}번 ~ ${start + todayWords.length}번`;
+
+      wordsGrid.innerHTML = "";
+
+      todayWords.forEach((item, i) => {
+        const globalIndex = start + i;
+        const card = document.createElement("article");
+        card.className = "word-card";
+        card.innerHTML = `
+          <div>
+            <div class="word-number">#${globalIndex + 1}</div>
+            <div class="word">${item.word}</div>
+            <div class="pronounce">발음: ${item.pronounce}</div>
+            <div class="meaning ${meaningsHidden ? "hidden" : ""}" id="meaning-${globalIndex}">${item.meaning}</div>
+            <div class="example">${item.example}</div>
+          </div>
+          <div class="card-bottom">
+            <button class="small-btn speak-btn" onclick="speakWord('${item.word}')">듣기</button>
+            <button class="small-btn known-btn ${isKnown(globalIndex) ? "done" : ""}" onclick="toggleKnown(${globalIndex})">
+              ${isKnown(globalIndex) ? "외움 완료" : "체크"}
+            </button>
+          </div>
+        `;
+        wordsGrid.appendChild(card);
+      });
+
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const start = (currentDay - 1) * wordsPerDay;
+      const count = getTodayWords().filter((_, i) => isKnown(start + i)).length;
+      document.getElementById("knownCount").textContent = count;
+      document.getElementById("progressBar").style.width = `${count * 10}%`;
+    }
+
+    function setDay(day) {
+      currentDay = Math.min(Math.max(day, 1), totalDays);
+      currentQuiz = null;
+      document.getElementById("quizQuestion").textContent = "아직 문제가 없습니다.";
+      document.getElementById("quizAnswer").style.display = "none";
+      render();
+    }
+
+    function changeDay(amount) {
+      setDay(currentDay + amount);
+    }
+
+    function toggleKnown(globalIndex) {
+      localStorage.setItem(getStorageKey(globalIndex), !isKnown(globalIndex));
+      render();
+    }
+
+    function toggleAllMeanings() {
+      meaningsHidden = !meaningsHidden;
+      document.getElementById("toggleMeaningBtn").textContent = meaningsHidden ? "뜻 전체 보기" : "뜻 전체 가리기";
+      render();
+    }
+
+    function resetToday() {
+      const start = (currentDay - 1) * wordsPerDay;
+      getTodayWords().forEach((_, i) => localStorage.removeItem(getStorageKey(start + i)));
+      render();
+    }
+
+    function speakWord(word) {
+      const utterance = new SpeechSynthesisUtterance(word);
+      utterance.lang = "en-US";
+      utterance.rate = 0.85;
+      speechSynthesis.speak(utterance);
+    }
+
+    function makeQuiz() {
+      const todayWords = getTodayWords();
+      currentQuiz = todayWords[Math.floor(Math.random() * todayWords.length)];
+      document.getElementById("quizQuestion").textContent = `Q. '${currentQuiz.meaning}'에 해당하는 영어 단어는?`;
+      const answer = document.getElementById("quizAnswer");
+      answer.style.display = "none";
+      answer.textContent = `정답: ${currentQuiz.word} / 예문: ${currentQuiz.example}`;
+    }
+
+    function showQuizAnswer() {
+      if (!currentQuiz) makeQuiz();
+      document.getElementById("quizAnswer").style.display = "block";
+    }
+
+    initDaySelect();
+    render();
+  </script>
+</body>
+</html>
