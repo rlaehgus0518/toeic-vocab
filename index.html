@@ -457,6 +457,92 @@
     }
 
 
+    function makeExampleMeaning(word, meaning) {
+      const meanings = {
+        accommodate: "그 호텔은 최대 300명의 손님을 수용할 수 있다.",
+        adjacent: "주차장은 본사에 인접해 있다.",
+        agenda: "회의 전에 안건을 검토해 주세요.",
+        allocate: "관리자는 다음 주에 예산을 배분할 것이다.",
+        applicant: "각 지원자는 이력서를 제출해야 한다.",
+        approve: "이사는 오늘 제안서를 승인할 것이다.",
+        assignment: "금요일까지 과제를 완료해 주세요.",
+        attend: "모든 직원은 교육 세션에 참석해야 한다.",
+        benefit: "새 정책은 많은 직원들에게 혜택을 줄 것이다.",
+        candidate: "그 후보자는 뛰어난 의사소통 능력을 가지고 있다.",
+        capacity: "그 회의실은 80명을 수용할 수 있다.",
+        comply: "직원들은 안전 규칙을 준수해야 한다.",
+        consecutive: "매출은 3개월 연속 증가했다.",
+        considerable: "그 프로젝트는 상당한 시간과 노력이 필요하다.",
+        contract: "고객은 오늘 아침 계약서에 서명했다.",
+        convenient: "새 위치는 통근자들에게 편리하다.",
+        deadline: "보고서 마감일은 금요일이다.",
+        defective: "결함이 있는 제품은 매장에 반품되었다.",
+        delay: "심한 교통 체증이 배송 지연을 일으켰다.",
+        department: "그녀는 마케팅 부서에서 일한다.",
+        designate: "회사는 새로운 팀장을 지정할 것이다.",
+        discount: "고객들은 이번 주에 할인을 받을 수 있다.",
+        efficient: "새 시스템은 더 효율적이다.",
+        eligible: "정규직 직원들은 혜택을 받을 자격이 있다.",
+        encourage: "관리자는 직원들이 의견을 공유하도록 장려할 것이다.",
+        ensure: "모든 문이 잠겼는지 확인해 주세요.",
+        estimate: "우리는 수리 비용 견적이 필요하다.",
+        expand: "회사는 해외로 사업을 확장할 계획이다.",
+        expense: "출장비 보고서는 월요일까지 제출해야 한다.",
+        facility: "새 시설은 다음 달에 문을 열 것이다.",
+        frequent: "이 소프트웨어는 잦은 업데이트가 필요하다.",
+        inventory: "그 가게는 매주 금요일 재고를 확인한다.",
+        invoice: "청구서를 이메일로 보내 주세요.",
+        maintain: "우리는 높은 품질 기준을 유지해야 한다.",
+        mandatory: "워크숍 참석은 의무이다.",
+        notify: "변경 사항이 있으면 사무실에 알려 주세요.",
+        obtain: "입장하기 전에 허가를 받아야 한다.",
+        outstanding: "그녀는 뛰어난 서비스로 상을 받았다.",
+        permit: "방문객은 이곳에 주차하려면 허가증이 필요하다.",
+        postpone: "회의는 월요일까지 연기되었다.",
+        procedure: "올바른 절차를 따라 주세요.",
+        purchase: "회사는 새 장비를 구매할 것이다.",
+        recruit: "그 회사는 신입 직원을 채용할 계획이다.",
+        refund: "고객은 7일 이내에 환불을 요청할 수 있다.",
+        regarding: "최근 주문과 관련하여 연락드립니다.",
+        reliable: "우리는 믿을 수 있는 공급업체가 필요하다.",
+        renovate: "그 호텔은 로비를 개조할 것이다.",
+        replace: "기술자가 고장 난 부품을 교체했다.",
+        require: "이 직책은 컴퓨터 능력을 요구한다.",
+        reservation: "나는 두 명 예약을 했다.",
+        schedule: "면접은 오후 3시로 예정되어 있다.",
+        shipment: "배송 물품은 어제 도착했다.",
+        submit: "금요일까지 보고서를 제출해 주세요.",
+        supervisor: "승인을 위해 관리자에게 문의하세요.",
+        temporary: "사무실은 임시 직원을 고용했다.",
+        thorough: "철저한 검사가 필요하다.",
+        transfer: "그는 영업 부서로 이동할 것이다.",
+        urgent: "이것은 긴급한 요청이다.",
+        vacant: "이용 가능한 빈 방이 없다.",
+        warranty: "그 노트북은 1년 보증이 제공된다."
+      };
+
+      if (meanings[word]) return meanings[word];
+
+      const verbWords = new Set([
+        "accept","achieve","acknowledge","acquire","activate","adapt","address","adjust","adopt","advertise","affect","allow","announce","apologize","appreciate","assemble","assess","assist","associate","assume","assure","attach","authorize","avoid","calculate","cancel","celebrate","charge","circulate","collaborate","commence","communicate","compare","complete","conduct","confirm","consider","construct","consult","contact","contain","contribute","cooperate","coordinate","cover","customize","decline","deliver","demonstrate","deposit","describe","determine","develop","distribute","document","emphasize","enclose","encounter","enhance","enroll","establish","evaluate","exceed","examine","exhibit","expire","extend","finalize","fluctuate","focus","fulfill","generate","guarantee","handle","hire","implement","improve","include","indicate","inform","inspect","install","intend","interpret","interrupt","introduce","investigate","launch","manage","measure","mention","merge","modify","monitor","negotiate","nominate","operate","oversee","participate","persuade","prefer","present","process","promote","provide","recommend","record","reduce","refer","reflect","register","reject","relocate","remain","remind","renew","repair","request","resolve","respond","retain","review","revise","select","separate","suspend","update","verify","withdraw"
+      ]);
+
+      const adjWords = new Set([
+        "absent","accurate","additional","adequate","affordable","alternative","annual","anxious","apparent","appropriate","available","aware","brief","commercial","competitive","complex","comprehensive","consistent","corporate","costly","crucial","current","dedicated","desirable","different","diverse","domestic","durable","effective","electronic","entire","essential","excellent","exceptional","extensive","external","familiar","feasible","financial","flexible","former","fragile","immediate","important","individual","initial","internal","legal","limited","necessary","official","overall","particular","possible","potential","previous","productive","professional","prospective","proper","quarterly","rapid","recent","regular","responsible","satisfactory","senior","severe","significant","specific","strict","substantial","successful","sufficient","technical","valid","various"
+      ]);
+
+      if (verbWords.has(word)) {
+        return "회사는 가능한 한 빨리 그 요청을 " + meaning + ".";
+      }
+
+      if (adjWords.has(word)) {
+        return "이것은 회의를 위한 " + meaning + " 문서이다.";
+      }
+
+      return "관리자는 회의 중에 " + meaning + "에 대해 논의했다.";
+    }
+
+
     const rawVocab = ['accommodate|수용하다, 숙박시키다', 'adjacent|인접한, 가까운', 'agenda|의제, 안건', 'allocate|할당하다, 배분하다', 'applicant|지원자, 신청자', 'approve|승인하다', 'assignment|업무, 과제, 배정', 'attend|참석하다', 'benefit|혜택, 이익', 'candidate|후보자, 지원자', 'capacity|수용 능력, 용량', 'comply|준수하다, 따르다', 'consecutive|연속적인', 'considerable|상당한', 'contract|계약, 계약서', 'convenient|편리한', 'deadline|마감일', 'defective|결함이 있는', 'delay|지연, 연기하다', 'department|부서', 'designate|지정하다', 'discount|할인', 'efficient|효율적인', 'eligible|자격이 있는', 'encourage|장려하다, 격려하다', 'ensure|보장하다, 확실히 하다', 'estimate|견적, 추정하다', 'expand|확장하다', 'expense|비용, 지출', 'facility|시설', 'frequent|빈번한', 'inventory|재고, 목록', 'invoice|청구서, 송장', 'maintain|유지하다, 관리하다', 'mandatory|의무적인, 필수의', 'notify|알리다, 통지하다', 'obtain|얻다, 획득하다', 'outstanding|뛰어난, 미지불된', 'permit|허가하다, 허가증', 'postpone|연기하다', 'procedure|절차', 'purchase|구매하다, 구매', 'recruit|모집하다, 채용하다', 'refund|환불', 'regarding|~에 관하여', 'reliable|믿을 수 있는', 'renovate|수리하다, 개조하다', 'replace|교체하다', 'require|요구하다, 필요로 하다', 'reservation|예약', 'schedule|일정, 예정하다', 'shipment|배송, 선적', 'submit|제출하다', 'supervisor|관리자, 감독관', 'temporary|임시의', 'thorough|철저한', 'transfer|이전하다, 이동하다', 'urgent|긴급한', 'vacant|비어 있는', 'warranty|보증, 보증서', 'absent|결석한, 부재중인', 'access|접근, 이용 권한', 'account|계좌, 거래처, 설명', 'accurate|정확한', 'achieve|달성하다', 'acknowledge|인정하다, 확인하다', 'acquire|획득하다', 'activate|작동시키다, 활성화하다', 'additional|추가의', 'adequate|충분한, 적절한', 'adjust|조정하다, 적응하다', 'administration|관리, 행정', 'advance|진전, 사전의', 'advertise|광고하다', 'affordable|감당할 수 있는, 저렴한', 'agency|대행사, 기관', 'agreement|계약, 동의', 'alternative|대안, 대체의', 'annual|연례의, 매년의', 'anticipate|예상하다', 'apologize|사과하다', 'application|지원서, 신청서', 'appointment|약속, 임명', 'appreciate|감사하다, 진가를 인정하다', 'appropriate|적절한', 'approximately|대략', 'arrangement|준비, 배열', 'assemble|조립하다, 모이다', 'assess|평가하다', 'assist|돕다', 'associate|관련시키다, 동료', 'assume|가정하다, 맡다', 'assure|보장하다', 'attach|첨부하다, 붙이다', 'authorize|승인하다, 권한을 주다', 'available|이용 가능한', 'aware|알고 있는', 'balance|잔액, 균형', 'branch|지점, 부서', 'brief|간단한, 보고하다', 'brochure|안내 책자', 'budget|예산', 'bulk|대량, 대부분', 'calculate|계산하다', 'cancel|취소하다', 'career|경력, 직업', 'caution|주의', 'certificate|증명서', 'chairperson|의장', 'charge|요금, 청구하다', 'circulate|회람하다, 순환하다', 'client|고객', 'collaborate|협력하다', 'colleague|동료', 'commence|시작하다', 'commercial|상업의, 광고', 'commission|수수료, 위원회', 'commitment|약속, 헌신', 'commute|통근하다', 'compare|비교하다', 'compensation|보상, 급여', 'competitive|경쟁력 있는', 'complete|완료하다, 완전한', 'complex|복잡한', 'component|부품, 구성 요소', 'comprehensive|포괄적인', 'concern|우려, 관련되다', 'condition|조건, 상태', 'conduct|수행하다, 행동', 'confirm|확인하다', 'conflict|충돌, 갈등', 'consider|고려하다', 'consult|상담하다', 'consumer|소비자', 'contact|연락하다, 연락처', 'contain|포함하다', 'contribute|기여하다', 'cooperate|협력하다', 'coordinate|조정하다', 'corporate|기업의', 'costly|비용이 많이 드는', 'courier|배송업체, 배달원', 'cover|포함하다, 덮다', 'credentials|자격, 증명서', 'crucial|중요한', 'currently|현재', 'customize|맞춤 제작하다', 'decline|거절하다, 감소하다', 'dedicated|헌신적인, 전용의', 'deficit|적자, 부족액', 'deliver|배송하다, 전달하다', 'deposit|보증금, 입금하다', 'describe|묘사하다, 설명하다', 'desirable|바람직한', 'despite|~에도 불구하고', 'determine|결정하다, 알아내다', 'develop|개발하다, 발전시키다', 'directly|직접적으로', 'directory|주소록, 명부', 'distribute|배포하다, 분배하다', 'diverse|다양한', 'document|문서, 기록하다', 'domestic|국내의, 가정의', 'durable|내구성이 있는', 'earnings|수익, 소득', 'effectively|효과적으로', 'electronic|전자의', 'emergency|비상사태', 'emphasize|강조하다', 'employee|직원', 'employer|고용주', 'enclose|동봉하다', 'encounter|마주치다, 직면하다', 'enhance|향상시키다', 'enroll|등록하다', 'entire|전체의', 'equipment|장비', 'establish|설립하다, 확립하다', 'evaluate|평가하다', 'eventually|결국', 'exceed|초과하다', 'excellent|훌륭한', 'exceptional|예외적인, 뛰어난', 'exhibit|전시하다, 전시회', 'expectation|기대', 'expertise|전문 지식', 'expire|만료되다', 'extend|연장하다, 확장하다', 'extensive|광범위한', 'external|외부의', 'familiar|익숙한', 'feasible|실현 가능한', 'financial|재정의, 금융의', 'flexible|유연한', 'fluctuate|변동하다', 'forecast|예측, 예보', 'former|이전의', 'founder|창립자', 'fragile|깨지기 쉬운', 'fulfill|이행하다, 충족하다', 'function|기능, 작동하다', 'generate|창출하다, 발생시키다', 'gradually|점차적으로', 'grant|승인하다, 보조금', 'guarantee|보장하다, 보증', 'handle|처리하다', 'headquarters|본사', 'hesitate|망설이다', 'immediate|즉각적인', 'impact|영향', 'implement|시행하다, 구현하다', 'improve|개선하다', 'incentive|장려금, 혜택', 'income|소득', 'indicate|나타내다', 'individual|개인의, 개인', 'industry|산업', 'inform|알리다', 'initial|초기의', 'initiative|계획, 주도권', 'inspect|검사하다', 'install|설치하다', 'instruction|지시, 설명서', 'insurance|보험', 'intend|의도하다', 'interest|관심, 이자', 'internal|내부의', 'interpret|해석하다', 'interrupt|방해하다', 'introduce|소개하다, 도입하다', 'investigate|조사하다', 'investment|투자', 'itinerary|여행 일정', 'journal|잡지, 일지', 'launch|출시하다, 시작하다', 'layout|배치, 설계', 'lease|임대차 계약', 'legal|법률의, 합법적인', 'limited|제한된', 'location|위치', 'manufacturer|제조업체', 'material|자료, 재료', 'measure|측정하다, 조치', 'membership|회원 자격', 'mention|언급하다', 'merge|합병하다', 'method|방법', 'modify|수정하다', 'monitor|감시하다, 확인하다', 'negotiate|협상하다', 'nominate|지명하다', 'objective|목표, 객관적인', 'occupation|직업', 'operate|운영하다, 작동하다', 'opportunity|기회', 'organization|조직', 'orientation|오리엔테이션, 방향', 'outcome|결과', 'overall|전반적인', 'oversee|감독하다', 'participant|참가자', 'participate|참여하다', 'payment|지불, 결제', 'performance|실적, 성과', 'personnel|직원, 인사부', 'persuade|설득하다', 'policy|정책, 규정', 'position|직위, 위치', 'potential|잠재적인', 'prefer|선호하다', 'preparation|준비', 'previous|이전의', 'priority|우선 사항', 'process|과정, 처리하다', 'productive|생산적인', 'professional|전문적인, 전문가', 'profit|이익', 'promote|홍보하다, 승진시키다', 'promptly|즉시', 'proposal|제안서', 'prospective|장래의, 유망한', 'provide|제공하다', 'publicity|홍보, 광고 효과', 'qualification|자격', 'quarterly|분기별의', 'receipt|영수증', 'recently|최근에', 'recommend|추천하다', 'record|기록, 기록하다', 'reduce|줄이다', 'refer|언급하다, 참조하다', 'reflect|반영하다', 'register|등록하다', 'regulation|규정', 'reject|거절하다', 'relocate|이전하다', 'remain|남아 있다', 'remind|상기시키다', 'renew|갱신하다', 'representative|대표자, 직원'];
 
     const vocab = rawVocab.map((line) => {
@@ -464,7 +550,8 @@
       return {
         word: parts[0],
         meaning: parts[1],
-        example: makeExample(parts[0])
+        example: makeExample(parts[0]),
+        exampleMeaning: makeExampleMeaning(parts[0], parts[1])
       };
     });
 
@@ -556,7 +643,10 @@
             <div class="num">#${globalIndex + 1}</div>
             <div class="word">${item.word}</div>
             <div class="${meanClass}">${item.meaning}</div>
-            <div class="ex">${item.example}</div>
+            <div class="ex">
+              <strong>예문</strong>: ${item.example}<br>
+              <strong>뜻</strong>: ${item.exampleMeaning}
+            </div>
           </div>
           <div class="bottom">
             <button class="speak" data-word="${item.word}">듣기</button>
@@ -877,7 +967,7 @@
       const answer = document.getElementById("quizAnswer");
       answer.style.display = "block";
       answer.className = "wrong";
-      answer.textContent = "정답: " + currentQuiz.word + " / 예문: " + currentQuiz.example + " / 정답 보기를 눌렀기 때문에 오답에 저장되었습니다. 다음 문제 버튼을 누르면 넘어갑니다.";
+      answer.innerHTML = "정답: " + currentQuiz.word + "<br>예문: " + currentQuiz.example + "<br>예문 뜻: " + currentQuiz.exampleMeaning + "<br>정답 보기를 눌렀기 때문에 오답에 저장되었습니다. 다음 문제 버튼을 누르면 넘어갑니다.";
     }
 
     function markTodayComplete() {
