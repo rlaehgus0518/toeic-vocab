@@ -181,8 +181,23 @@
       background: #16a34a;
       color: white;
     }
+    .quiz-start-box {
+      margin: 18px 0 10px;
+      display: flex;
+      justify-content: center;
+    }
+    .quiz-start-box button {
+      width: min(100%, 420px);
+      padding: 14px 18px;
+      font-size: 16px;
+      background: #f97316;
+      box-shadow: 0 10px 24px rgba(249, 115, 22, .18);
+    }
+    .quiz-start-box button:hover {
+      background: #ea580c;
+    }
     .quiz {
-      margin-top: 18px;
+      margin-top: 0;
       border-color: #fed7aa;
     }
     .quiz h2 {
@@ -216,6 +231,14 @@
       body { padding: 13px; }
       h1 { font-size: 27px; }
       .grid { grid-template-columns: 1fr; }
+      .quiz-start-box {
+        position: sticky;
+        bottom: 10px;
+        z-index: 20;
+      }
+      .quiz-start-box button {
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -253,13 +276,13 @@
       <div>
         <button id="toggleBtn">뜻 전체 가리기</button>
         <button class="ghost" id="resetBtn">오늘 체크 초기화</button>
-      </div>
-      <div>
-        <button id="quizBtn">랜덤 문제 내기</button>
-      </div>
-    </div>
+      </div>    </div>
 
     <main class="grid" id="grid"></main>
+
+    <div class="quiz-start-box">
+      <button id="quizBtn">10개 다 외웠으면 랜덤 문제 내기</button>
+    </div>
 
     <section class="panel quiz">
       <h2>랜덤 복습 문제</h2>
