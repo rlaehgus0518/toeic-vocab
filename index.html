@@ -339,6 +339,7 @@
 
       <div class="quiz-input-row">
         <button class="ghost" id="answerBtn">정답 보기</button>
+        <button class="ghost" id="nextQuizBtn">다음 문제</button>
         <button class="ghost" id="wrongQuizBtn">오답풀이</button>
         <button class="ghost" id="clearWrongBtn">오답 초기화</button>
       </div>
@@ -390,6 +391,7 @@
       document.getElementById("resetBtn").addEventListener("click", resetToday);
       document.getElementById("quizBtn").addEventListener("click", startNormalQuiz);
       document.getElementById("answerBtn").addEventListener("click", showAnswer);
+      document.getElementById("nextQuizBtn").addEventListener("click", nextQuiz);
       document.getElementById("checkBtn").addEventListener("click", checkAnswer);
       document.getElementById("wrongQuizBtn").addEventListener("click", startWrongQuiz);
       document.getElementById("clearWrongBtn").addEventListener("click", clearTodayWrong);
@@ -612,6 +614,7 @@
       answerBox.style.display = "none";
       answerBox.textContent = "";
       answerBox.className = "";
+      document.getElementById("nextQuizBtn").disabled = false;
     }
 
     function startNormalQuiz() {
@@ -761,8 +764,7 @@
       const answer = document.getElementById("quizAnswer");
       answer.style.display = "block";
       answer.className = "wrong";
-      answer.textContent = "정답: " + currentQuiz.word + " / 예문: " + currentQuiz.example + " / 정답 보기를 눌렀기 때문에 오답에 저장되었습니다.";
-      setTimeout(nextQuiz, 1300);
+      answer.textContent = "정답: " + currentQuiz.word + " / 예문: " + currentQuiz.example + " / 정답 보기를 눌렀기 때문에 오답에 저장되었습니다. 다음 문제 버튼을 누르면 넘어갑니다.";
     }
 
     function markTodayComplete() {
