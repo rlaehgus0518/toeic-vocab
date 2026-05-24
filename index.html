@@ -416,15 +416,50 @@
     }
 
     function speak(word) {
-      if (!("speechSynthesis" in window)) {
-        alert("이 브라우저에서는 음성 재생을 지원하지 않습니다.");
+      // 모바일 브라우저는 음성 목록이 늦게 로딩되거나,
+      // 같은 음성을 연속 재생할 때 바로 막히는 경우가 있어서 약간의 보정이 필요합니다.
+      if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
+        alert("이 브라우저에서는 듣기 기능을 지원하지 않습니다. 크롬이나 사파리 최신 버전으로 열어주세요.");
         return;
       }
-      const u = new SpeechSynthesisUtterance(word);
-      u.lang = "en-US";
-      u.rate = 0.85;
-      speechSynthesis.cancel();
-      speechSynthesis.speak(u);
+
+      const play = () => {
+        speechSynthesis.cancel();
+
+        const u = new SpeechSynthesisUtterance(word);
+        u.lang = "en-US";
+        u.rate = 0.8;
+        u.pitch = 1;
+        u.volume = 1;
+
+        const voices = speechSynthesis.getVoices();
+        const englishVoice =
+          voices.find(v => v.lang === "en-US") ||
+          voices.find(v => v.lang && v.lang.toLowerCase().startsWith("en")) ||
+          voices[0];
+
+        if (englishVoice) {
+          u.voice = englishVoice;
+        }
+
+        setTimeout(() => {
+          speechSynthesis.speak(u);
+        }, 80);
+      };
+
+      const voices = speechSynthesis.getVoices();
+
+      if (voices.length === 0) {
+        speechSynthesis.onvoiceschanged = () => {
+          play();
+          speechSynthesis.onvoiceschanged = null;
+        };
+
+        // 일부 모바일 브라우저는 onvoiceschanged가 늦게 오거나 안 올 수 있어서 한 번 더 시도합니다.
+        setTimeout(play, 300);
+      } else {
+        play();
+      }
     }
 
     function makeQuiz() {
