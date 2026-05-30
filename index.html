@@ -5,347 +5,144 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TOEIC 매일 10단어</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, "Noto Sans KR", sans-serif;
-    }
-    body {
-      min-height: 100vh;
-      background: linear-gradient(135deg, #eaf2ff, #fff7ed);
-      color: #172033;
-      padding: 22px;
-    }
-    .wrap {
-      max-width: 1150px;
-      margin: 0 auto;
-    }
-    header {
-      display: flex;
-      justify-content: space-between;
-      gap: 14px;
-      align-items: center;
-      margin-bottom: 18px;
-      flex-wrap: wrap;
-    }
-    h1 {
-      color: #1d4ed8;
-      font-size: 34px;
-      letter-spacing: -1px;
-    }
-    .sub {
-      color: #64748b;
-      margin-top: 6px;
-    }
-    .panel {
-      background: rgba(255,255,255,.9);
-      border: 1px solid #dbeafe;
-      border-radius: 22px;
-      padding: 16px;
-      box-shadow: 0 12px 28px rgba(30, 64, 175, .08);
-    }
-    .day-box {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    button, select {
-      border: 0;
-      border-radius: 999px;
-      padding: 10px 14px;
-      cursor: pointer;
-      font-weight: 800;
-      font-size: 14px;
-    }
-    button {
-      background: #2563eb;
-      color: white;
-    }
-    button:hover {
-      background: #1d4ed8;
-    }
-    .ghost {
-      background: #dbeafe;
-      color: #1d4ed8;
-    }
-    select {
-      background: white;
-      color: #1d4ed8;
-      border: 1px solid #bfdbfe;
-      outline: none;
-    }
-    .stats {
-      display: grid;
-      grid-template-columns: 1.5fr 1fr 1fr;
-      gap: 14px;
-      margin-bottom: 16px;
-    }
-    .stat span {
-      color: #64748b;
-      font-size: 13px;
-      font-weight: 800;
-    }
-    .stat strong {
-      display: block;
-      font-size: 25px;
-      margin-top: 7px;
-    }
-    .progress {
-      margin-top: 13px;
-      height: 12px;
-      background: #e5edff;
-      border-radius: 999px;
-      overflow: hidden;
-    }
-    .bar {
-      width: 0%;
-      height: 100%;
-      background: linear-gradient(90deg, #2563eb, #f59e0b);
-      transition: width .2s;
-    }
-    .toolbar {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 15px;
-      flex-wrap: wrap;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 14px;
-    }
-    .card {
-      background: white;
-      border-radius: 22px;
-      border: 1px solid #e2e8f0;
-      padding: 17px;
-      min-height: 180px;
-      box-shadow: 0 14px 28px rgba(15, 23, 42, .08);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .num {
-      color: #2563eb;
-      font-weight: 900;
-      font-size: 13px;
-      margin-bottom: 10px;
-    }
-    .word {
-      font-size: 25px;
-      font-weight: 900;
-      margin-bottom: 8px;
-      word-break: break-word;
-    }
-    .mean {
-      font-size: 16px;
-      color: #334155;
-      line-height: 1.45;
-      min-height: 42px;
-    }
-    .hidden {
-      filter: blur(6px);
-      user-select: none;
-    }
-    .ex {
-      margin-top: 10px;
-      padding: 9px;
-      background: #f8fafc;
-      border-radius: 14px;
-      color: #64748b;
-      font-size: 13px;
-      line-height: 1.45;
-    }
-    .bottom {
-      display: flex;
-      gap: 8px;
-      margin-top: 13px;
-    }
-    .bottom button {
-      flex: 1;
-      padding: 9px;
-      font-size: 13px;
-    }
-    .speak {
-      background: #fff7ed;
-      color: #c2410c;
-    }
-    .known {
-      background: #f1f5f9;
-      color: #334155;
-    }
-    .known.done {
-      background: #16a34a;
-      color: white;
-    }
-    .quiz-start-box {
-      margin: 18px 0 10px;
-      display: flex;
-      justify-content: center;
-    }
-    .quiz-start-box button {
-      width: min(100%, 420px);
-      padding: 14px 18px;
-      font-size: 16px;
-      background: #f97316;
-      box-shadow: 0 10px 24px rgba(249, 115, 22, .18);
-    }
-    .quiz-start-box button:hover {
-      background: #ea580c;
-    }
-    .quiz {
-      margin-top: 0;
-      border-color: #fed7aa;
-    }
-    .quiz h2 {
-      color: #c2410c;
-      margin-bottom: 8px;
-    }
-    #quizQuestion {
-      margin: 12px 0;
-      font-weight: 900;
-      font-size: 18px;
-    }
-    .quiz-input-row {
-      display: flex;
-      gap: 8px;
-      margin: 10px 0;
-      flex-wrap: wrap;
-    }
-    #quizInput {
-      flex: 1;
-      min-width: 180px;
-      border: 1px solid #fed7aa;
-      border-radius: 999px;
-      padding: 12px 14px;
-      font-size: 16px;
-      outline: none;
-    }
-    #quizInput:focus {
-      border-color: #f97316;
-      box-shadow: 0 0 0 4px rgba(249, 115, 22, .12);
-    }
-    #quizAnswer {
-      display: none;
-      background: #fff7ed;
-      padding: 12px;
-      border-radius: 14px;
-      line-height: 1.5;
-      color: #334155;
-      font-weight: 800;
-    }
-    #quizAnswer.correct {
-      background: #dbeafe;
-      color: #1d4ed8;
-      border: 1px solid #93c5fd;
-    }
-    #quizAnswer.wrong {
-      background: #fee2e2;
-      color: #dc2626;
-      border: 1px solid #fca5a5;
-    }
-    #wrongList {
-      margin-top: 10px;
-      color: #64748b;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-    .love-message {
-      display: none;
-      margin-top: 14px;
-      padding: 18px;
-      border-radius: 20px;
-      background: linear-gradient(135deg, #dbeafe, #ffe4e6);
-      color: #1d4ed8;
-      font-size: 26px;
-      font-weight: 900;
-      text-align: center;
-      box-shadow: 0 12px 28px rgba(29, 78, 216, .12);
-      animation: popLove .35s ease;
-    }
-    @keyframes popLove {
-      from { transform: scale(.92); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-    footer {
-      text-align: center;
-      margin-top: 18px;
-      color: #94a3b8;
-      font-size: 13px;
-    }
-    @media (max-width: 1000px) {
-      .grid { grid-template-columns: repeat(2, 1fr); }
-      .stats { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 600px) {
-      body { padding: 13px; }
-      h1 { font-size: 27px; }
-      .grid { grid-template-columns: 1fr; }
-      .quiz-start-box {
-        position: sticky;
-        bottom: 10px;
-        z-index: 20;
-      }
-      .quiz-start-box button {
-        width: 100%;
-      }
-      .quiz-input-row {
-        flex-direction: column;
-      }
-      #quizInput, .quiz-input-row button {
-        width: 100%;
-      }
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, "Noto Sans KR", sans-serif; }
+    body { min-height: 100vh; background: linear-gradient(135deg, #eaf2ff, #fff7ed); color: #172033; padding: 22px; }
+    .wrap { max-width: 1180px; margin: 0 auto; }
+    header { display: flex; justify-content: space-between; gap: 18px; align-items: flex-start; margin-bottom: 18px; flex-wrap: nowrap; }
+    .title-area { flex: 1 1 auto; min-width: 0; padding-top: 4px; }
+    h1 { color: #1d4ed8; font-size: 34px; letter-spacing: -1px; }
+    .sub { color: #64748b; margin-top: 6px; line-height: 1.55; max-width: 720px; }
+    .panel { background: rgba(255,255,255,.92); border: 1px solid #dbeafe; border-radius: 22px; padding: 16px; box-shadow: 0 12px 28px rgba(30, 64, 175, .08); }
+    button, select { border: 0; border-radius: 999px; padding: 10px 14px; cursor: pointer; font-weight: 800; font-size: 14px; }
+    button { background: #2563eb; color: white; }
+    button:hover { background: #1d4ed8; color: white; }
+    .ghost { background: #dbeafe; color: #1d4ed8; border: 1px solid #bfdbfe; }
+    .ghost:hover { background: #2563eb; color: white; }
+    button:disabled { opacity: .45; cursor: not-allowed; }
+    button:disabled:hover { background: #dbeafe; color: #1d4ed8; }
+
+    .date-wrap { flex: 0 0 auto; display: flex; justify-content: flex-end; align-items: flex-start; }
+    .date-box { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: nowrap; padding: 14px 16px; min-width: 260px; }
+    .date-input { border: 1px solid #bfdbfe; border-radius: 999px; padding: 10px 14px; color: #1d4ed8; font-size: 15px; font-weight: 900; background: white; outline: none; cursor: pointer; }
+    .date-input:focus { border-color: #2563eb; box-shadow: 0 0 0 4px rgba(37,99,235,.12); }
+    .stars { margin-top: 8px; letter-spacing: 1px; font-size: 18px; color: #cbd5e1; white-space: nowrap; }
+    .star.filled { color: #f59e0b; text-shadow: 0 1px 0 rgba(0,0,0,.08); }
+
+    .stats { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+    .stat span { color: #64748b; font-size: 13px; font-weight: 800; }
+    .stat strong { display: block; font-size: 24px; margin-top: 7px; }
+    .progress { margin-top: 13px; height: 12px; background: #e5edff; border-radius: 999px; overflow: hidden; }
+    .bar { width: 0%; height: 100%; background: linear-gradient(90deg, #2563eb, #f59e0b); transition: width .2s; }
+    .toolbar { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
+    .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+    .card { background: white; border-radius: 22px; border: 1px solid #e2e8f0; padding: 17px; min-height: 180px; box-shadow: 0 14px 28px rgba(15, 23, 42, .08); display: flex; flex-direction: column; justify-content: space-between; }
+    .num { color: #2563eb; font-weight: 900; font-size: 13px; margin-bottom: 10px; }
+    .word { font-size: 25px; font-weight: 900; margin-bottom: 8px; word-break: break-word; }
+    .mean { font-size: 16px; color: #334155; line-height: 1.45; min-height: 42px; }
+    .hidden, .quiz-blur { filter: blur(7px); user-select: none; pointer-events: none; }
+    .quiz-blur { color: transparent; text-shadow: 0 0 8px rgba(15,23,42,.55); }
+    .ex { margin-top: 10px; padding: 9px; background: #f8fafc; border-radius: 14px; color: #64748b; font-size: 13px; line-height: 1.45; }
+    .bottom { display: flex; gap: 8px; margin-top: 13px; }
+    .bottom button, .bottom div { flex: 1; padding: 9px; font-size: 13px; }
+    .speak { background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; }
+    .speak:hover { background: #f97316; color: white; }
+    .known-status { background: #f1f5f9; color: #334155; border-radius: 999px; text-align: center; font-weight: 900; }
+    .known-status.done { background: #16a34a; color: white; }
+    .quiz-start-box { margin: 18px 0 10px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+    .quiz-start-box button { width: min(100%, 420px); padding: 14px 18px; font-size: 16px; background: #f97316; box-shadow: 0 10px 24px rgba(249, 115, 22, .18); }
+    .quiz-start-box button:hover { background: #ea580c; color: white; }
+    #addRoundBtn { display: none; background: #16a34a; }
+    #addRoundBtn:hover { background: #15803d; }
+    .quiz { display: none; margin-top: 0; border-color: #fed7aa; }
+    .quiz.show { display: block; }
+    .quiz h2 { color: #c2410c; margin-bottom: 8px; }
+    #quizQuestion { margin: 12px 0; font-weight: 900; font-size: 18px; }
+    .quiz-input-row { display: flex; gap: 8px; margin: 10px 0; flex-wrap: wrap; }
+    #quizInput { flex: 1; min-width: 180px; border: 1px solid #fed7aa; border-radius: 999px; padding: 12px 14px; font-size: 16px; outline: none; }
+    #quizInput:focus { border-color: #f97316; box-shadow: 0 0 0 4px rgba(249, 115, 22, .12); }
+    #quizAnswer { display: none; background: #fff7ed; padding: 12px; border-radius: 14px; line-height: 1.5; color: #334155; font-weight: 800; }
+    #quizAnswer.correct { background: #dbeafe; color: #1d4ed8; border: 1px solid #93c5fd; }
+    #quizAnswer.wrong { background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; }
+    #wrongList { margin-top: 10px; color: #64748b; font-size: 14px; line-height: 1.5; }
+    .love-message { display: none; margin-top: 14px; padding: 18px; border-radius: 20px; background: linear-gradient(135deg, #dbeafe, #ffe4e6); color: #1d4ed8; font-size: 26px; font-weight: 900; text-align: center; box-shadow: 0 12px 28px rgba(29, 78, 216, .12); animation: popLove .35s ease; }
+    @keyframes popLove { from { transform: scale(.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+    .all-complete-panel { display: none; margin-top: 18px; border-color: #bbf7d0; }
+    .all-complete-panel.show { display: block; }
+    .all-complete-panel h2 { color: #15803d; margin-bottom: 8px; }
+    .all-complete-sub { color: #64748b; font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-weight: 700; }
+    .complete-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .complete-item { background: #f8fafc; border: 1px solid #dcfce7; border-radius: 16px; padding: 11px; line-height: 1.45; }
+    .complete-item strong { color: #172033; font-size: 16px; }
+    .complete-item span { display: block; color: #475569; font-size: 13px; margin-top: 3px; }
+    footer { text-align: center; margin-top: 18px; color: #94a3b8; font-size: 13px; }
+    @media (max-width: 1000px) { .grid { grid-template-columns: repeat(2, 1fr); } .stats { grid-template-columns: 1fr; } .complete-list { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 800px) { body { padding: 13px; } h1 { font-size: 27px; } header { flex-wrap: wrap; align-items: stretch; } .title-area { flex: 1 1 100%; } .date-wrap { flex: 1 1 100%; justify-content: flex-end; } .date-box { width: auto; min-width: 0; } .grid { grid-template-columns: 1fr; } .complete-list { grid-template-columns: 1fr; } .stars { font-size: 16px; } .quiz-input-row { flex-direction: column; } #quizInput, .quiz-input-row button { width: 100%; } }
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <div>
+      <div class="title-area">
         <h1>TOEIC 매일 10단어</h1>
-        <p class="sub">30일 동안 하루 10개씩 외우는 효리 전용 토익 단어장</p>
+        <p class="sub">2026년 6월 1일부터 12월 31일까지 날짜를 선택해서 학습합니다.</p>
       </div>
-      <div class="panel day-box">
-        <button class="ghost" id="prevBtn">이전</button>
-        <select id="daySelect"></select>
-        <button class="ghost" id="nextBtn">다음</button>
+
+      <div class="date-wrap">
+        <div class="panel date-box">
+          <button class="ghost" id="prevDateBtn">이전</button>
+          <input
+            type="date"
+            id="dateSelect"
+            class="date-input"
+            min="2026-06-01"
+            max="2026-12-31"
+            value="2026-06-01"
+          >
+          <button class="ghost" id="nextDateBtn">다음</button>
+        </div>
       </div>
     </header>
 
     <section class="stats">
       <div class="panel stat">
-        <span>오늘 학습</span>
-        <strong id="dayTitle">Day 1</strong>
+        <span>선택한 날짜</span>
+        <strong id="dayTitle">2026년 6월 1일</strong>
         <div class="progress"><div class="bar" id="bar"></div></div>
+      </div>
+      <div class="panel stat">
+        <span>현재 세트</span>
+        <strong><span id="roundText">1세트</span> <span id="roundStars" class="stars"></span></strong>
       </div>
       <div class="panel stat">
         <span>외운 단어</span>
         <strong><span id="knownCount">0</span> / 10개</strong>
-      </div>
-      <div class="panel stat">
-        <span>학습 범위</span>
-        <strong id="rangeText">1번 ~ 10번</strong>
       </div>
     </section>
 
     <div class="toolbar">
       <div>
         <button id="toggleBtn">뜻 전체 가리기</button>
-        <button class="ghost" id="resetBtn">오늘 체크 초기화</button>
-      </div>    </div>
+        <button class="ghost" id="resetBtn">현재 세트 초기화</button>
+      </div>
+    </div>
 
     <main class="grid" id="grid"></main>
 
+    <section class="panel all-complete-panel" id="allCompletePanel">
+      <h2>오늘 30개 단어 전체 복습</h2>
+      <p class="all-complete-sub">3세트까지 모두 완료했습니다. 오늘 학습한 30개 단어를 한 번에 다시 확인하세요.</p>
+      <div class="complete-list" id="allCompleteList"></div>
+    </section>
+
     <div class="quiz-start-box">
-      <button id="quizBtn">10개 다 외웠으면 랜덤 문제 내기</button>
+      <button id="quizBtn">랜덤 복습 문제</button>
+      <button id="addRoundBtn">하나더?! 10단어 추가</button>
     </div>
 
-    <section class="panel quiz">
+    <section class="panel quiz" id="quizPanel">
       <h2>랜덤 복습 문제</h2>
-      <p>뜻을 보고 영어 단어를 직접 입력하세요. 일반 복습은 10문제로 진행되고, 이미 나온 문제는 다시 나오지 않습니다. 10개를 다 풀면 오답풀이로 자동 이동합니다.</p>
+      <p>뜻을 보고 영어 단어를 직접 입력하세요. 현재 세트 10문제를 모두 맞히면 별이 채워집니다.</p>
       <div id="quizModeText">일반 복습 모드</div>
       <div id="quizQuestion">아직 문제가 없습니다.</div>
 
@@ -355,6 +152,7 @@
       </div>
 
       <div class="quiz-input-row">
+        <button class="ghost" id="studyBtn">다시 외우기</button>
         <button class="ghost" id="answerBtn">정답 보기</button>
         <button class="ghost" id="nextQuizBtn">다음 문제</button>
         <button class="ghost" id="wrongQuizBtn">오답풀이</button>
@@ -362,14 +160,19 @@
       </div>
 
       <div id="quizAnswer"></div>
-      <div id="loveMessage" class="love-message">도현아 사랑해 💙</div>
+      <div id="loveMessage" class="love-message"></div>
       <div id="wrongList"></div>
     </section>
 
-    <footer>외운 단어 체크는 이 브라우저에 자동 저장됩니다.</footer>
+    <footer>학습 기록, 별, 오답은 이 브라우저에 자동 저장됩니다.</footer>
   </div>
 
   <script>
+    function getRandomCompleteMessage() {
+      const messages = ["고생했어", "하나더?!", "쉽네~"];
+      return messages[Math.floor(Math.random() * messages.length)];
+    }
+
 
     function makeExample(word) {
       const examples = {
@@ -543,9 +346,1106 @@
     }
 
 
-    const rawVocab = ['accommodate|수용하다, 숙박시키다', 'adjacent|인접한, 가까운', 'agenda|의제, 안건', 'allocate|할당하다, 배분하다', 'applicant|지원자, 신청자', 'approve|승인하다', 'assignment|업무, 과제, 배정', 'attend|참석하다', 'benefit|혜택, 이익', 'candidate|후보자, 지원자', 'capacity|수용 능력, 용량', 'comply|준수하다, 따르다', 'consecutive|연속적인', 'considerable|상당한', 'contract|계약, 계약서', 'convenient|편리한', 'deadline|마감일', 'defective|결함이 있는', 'delay|지연, 연기하다', 'department|부서', 'designate|지정하다', 'discount|할인', 'efficient|효율적인', 'eligible|자격이 있는', 'encourage|장려하다, 격려하다', 'ensure|보장하다, 확실히 하다', 'estimate|견적, 추정하다', 'expand|확장하다', 'expense|비용, 지출', 'facility|시설', 'frequent|빈번한', 'inventory|재고, 목록', 'invoice|청구서, 송장', 'maintain|유지하다, 관리하다', 'mandatory|의무적인, 필수의', 'notify|알리다, 통지하다', 'obtain|얻다, 획득하다', 'outstanding|뛰어난, 미지불된', 'permit|허가하다, 허가증', 'postpone|연기하다', 'procedure|절차', 'purchase|구매하다, 구매', 'recruit|모집하다, 채용하다', 'refund|환불', 'regarding|~에 관하여', 'reliable|믿을 수 있는', 'renovate|수리하다, 개조하다', 'replace|교체하다', 'require|요구하다, 필요로 하다', 'reservation|예약', 'schedule|일정, 예정하다', 'shipment|배송, 선적', 'submit|제출하다', 'supervisor|관리자, 감독관', 'temporary|임시의', 'thorough|철저한', 'transfer|이전하다, 이동하다', 'urgent|긴급한', 'vacant|비어 있는', 'warranty|보증, 보증서', 'absent|결석한, 부재중인', 'access|접근, 이용 권한', 'account|계좌, 거래처, 설명', 'accurate|정확한', 'achieve|달성하다', 'acknowledge|인정하다, 확인하다', 'acquire|획득하다', 'activate|작동시키다, 활성화하다', 'additional|추가의', 'adequate|충분한, 적절한', 'adjust|조정하다, 적응하다', 'administration|관리, 행정', 'advance|진전, 사전의', 'advertise|광고하다', 'affordable|감당할 수 있는, 저렴한', 'agency|대행사, 기관', 'agreement|계약, 동의', 'alternative|대안, 대체의', 'annual|연례의, 매년의', 'anticipate|예상하다', 'apologize|사과하다', 'application|지원서, 신청서', 'appointment|약속, 임명', 'appreciate|감사하다, 진가를 인정하다', 'appropriate|적절한', 'approximately|대략', 'arrangement|준비, 배열', 'assemble|조립하다, 모이다', 'assess|평가하다', 'assist|돕다', 'associate|관련시키다, 동료', 'assume|가정하다, 맡다', 'assure|보장하다', 'attach|첨부하다, 붙이다', 'authorize|승인하다, 권한을 주다', 'available|이용 가능한', 'aware|알고 있는', 'balance|잔액, 균형', 'branch|지점, 부서', 'brief|간단한, 보고하다', 'brochure|안내 책자', 'budget|예산', 'bulk|대량, 대부분', 'calculate|계산하다', 'cancel|취소하다', 'career|경력, 직업', 'caution|주의', 'certificate|증명서', 'chairperson|의장', 'charge|요금, 청구하다', 'circulate|회람하다, 순환하다', 'client|고객', 'collaborate|협력하다', 'colleague|동료', 'commence|시작하다', 'commercial|상업의, 광고', 'commission|수수료, 위원회', 'commitment|약속, 헌신', 'commute|통근하다', 'compare|비교하다', 'compensation|보상, 급여', 'competitive|경쟁력 있는', 'complete|완료하다, 완전한', 'complex|복잡한', 'component|부품, 구성 요소', 'comprehensive|포괄적인', 'concern|우려, 관련되다', 'condition|조건, 상태', 'conduct|수행하다, 행동', 'confirm|확인하다', 'conflict|충돌, 갈등', 'consider|고려하다', 'consult|상담하다', 'consumer|소비자', 'contact|연락하다, 연락처', 'contain|포함하다', 'contribute|기여하다', 'cooperate|협력하다', 'coordinate|조정하다', 'corporate|기업의', 'costly|비용이 많이 드는', 'courier|배송업체, 배달원', 'cover|포함하다, 덮다', 'credentials|자격, 증명서', 'crucial|중요한', 'currently|현재', 'customize|맞춤 제작하다', 'decline|거절하다, 감소하다', 'dedicated|헌신적인, 전용의', 'deficit|적자, 부족액', 'deliver|배송하다, 전달하다', 'deposit|보증금, 입금하다', 'describe|묘사하다, 설명하다', 'desirable|바람직한', 'despite|~에도 불구하고', 'determine|결정하다, 알아내다', 'develop|개발하다, 발전시키다', 'directly|직접적으로', 'directory|주소록, 명부', 'distribute|배포하다, 분배하다', 'diverse|다양한', 'document|문서, 기록하다', 'domestic|국내의, 가정의', 'durable|내구성이 있는', 'earnings|수익, 소득', 'effectively|효과적으로', 'electronic|전자의', 'emergency|비상사태', 'emphasize|강조하다', 'employee|직원', 'employer|고용주', 'enclose|동봉하다', 'encounter|마주치다, 직면하다', 'enhance|향상시키다', 'enroll|등록하다', 'entire|전체의', 'equipment|장비', 'establish|설립하다, 확립하다', 'evaluate|평가하다', 'eventually|결국', 'exceed|초과하다', 'excellent|훌륭한', 'exceptional|예외적인, 뛰어난', 'exhibit|전시하다, 전시회', 'expectation|기대', 'expertise|전문 지식', 'expire|만료되다', 'extend|연장하다, 확장하다', 'extensive|광범위한', 'external|외부의', 'familiar|익숙한', 'feasible|실현 가능한', 'financial|재정의, 금융의', 'flexible|유연한', 'fluctuate|변동하다', 'forecast|예측, 예보', 'former|이전의', 'founder|창립자', 'fragile|깨지기 쉬운', 'fulfill|이행하다, 충족하다', 'function|기능, 작동하다', 'generate|창출하다, 발생시키다', 'gradually|점차적으로', 'grant|승인하다, 보조금', 'guarantee|보장하다, 보증', 'handle|처리하다', 'headquarters|본사', 'hesitate|망설이다', 'immediate|즉각적인', 'impact|영향', 'implement|시행하다, 구현하다', 'improve|개선하다', 'incentive|장려금, 혜택', 'income|소득', 'indicate|나타내다', 'individual|개인의, 개인', 'industry|산업', 'inform|알리다', 'initial|초기의', 'initiative|계획, 주도권', 'inspect|검사하다', 'install|설치하다', 'instruction|지시, 설명서', 'insurance|보험', 'intend|의도하다', 'interest|관심, 이자', 'internal|내부의', 'interpret|해석하다', 'interrupt|방해하다', 'introduce|소개하다, 도입하다', 'investigate|조사하다', 'investment|투자', 'itinerary|여행 일정', 'journal|잡지, 일지', 'launch|출시하다, 시작하다', 'layout|배치, 설계', 'lease|임대차 계약', 'legal|법률의, 합법적인', 'limited|제한된', 'location|위치', 'manufacturer|제조업체', 'material|자료, 재료', 'measure|측정하다, 조치', 'membership|회원 자격', 'mention|언급하다', 'merge|합병하다', 'method|방법', 'modify|수정하다', 'monitor|감시하다, 확인하다', 'negotiate|협상하다', 'nominate|지명하다', 'objective|목표, 객관적인', 'occupation|직업', 'operate|운영하다, 작동하다', 'opportunity|기회', 'organization|조직', 'orientation|오리엔테이션, 방향', 'outcome|결과', 'overall|전반적인', 'oversee|감독하다', 'participant|참가자', 'participate|참여하다', 'payment|지불, 결제', 'performance|실적, 성과', 'personnel|직원, 인사부', 'persuade|설득하다', 'policy|정책, 규정', 'position|직위, 위치', 'potential|잠재적인', 'prefer|선호하다', 'preparation|준비', 'previous|이전의', 'priority|우선 사항', 'process|과정, 처리하다', 'productive|생산적인', 'professional|전문적인, 전문가', 'profit|이익', 'promote|홍보하다, 승진시키다', 'promptly|즉시', 'proposal|제안서', 'prospective|장래의, 유망한', 'provide|제공하다', 'publicity|홍보, 광고 효과', 'qualification|자격', 'quarterly|분기별의', 'receipt|영수증', 'recently|최근에', 'recommend|추천하다', 'record|기록, 기록하다', 'reduce|줄이다', 'refer|언급하다, 참조하다', 'reflect|반영하다', 'register|등록하다', 'regulation|규정', 'reject|거절하다', 'relocate|이전하다', 'remain|남아 있다', 'remind|상기시키다', 'renew|갱신하다', 'representative|대표자, 직원'];
 
-    const vocab = rawVocab.map((line) => {
+    const rawVocab = [
+      "accommodate|수용하다, 숙박시키다",
+      "adjacent|인접한, 가까운",
+      "agenda|의제, 안건",
+      "allocate|할당하다, 배분하다",
+      "applicant|지원자, 신청자",
+      "approve|승인하다",
+      "assignment|업무, 과제, 배정",
+      "attend|참석하다",
+      "benefit|혜택, 이익",
+      "candidate|후보자, 지원자",
+      "capacity|수용 능력, 용량",
+      "comply|준수하다, 따르다",
+      "consecutive|연속적인",
+      "considerable|상당한",
+      "contract|계약, 계약서",
+      "convenient|편리한",
+      "deadline|마감일",
+      "defective|결함이 있는",
+      "delay|지연, 연기하다",
+      "department|부서",
+      "designate|지정하다",
+      "discount|할인",
+      "efficient|효율적인",
+      "eligible|자격이 있는",
+      "encourage|장려하다, 격려하다",
+      "ensure|보장하다, 확실히 하다",
+      "estimate|견적, 추정하다",
+      "expand|확장하다",
+      "expense|비용, 지출",
+      "facility|시설",
+      "frequent|빈번한",
+      "inventory|재고, 목록",
+      "invoice|청구서, 송장",
+      "maintain|유지하다, 관리하다",
+      "mandatory|의무적인, 필수의",
+      "notify|알리다, 통지하다",
+      "obtain|얻다, 획득하다",
+      "outstanding|뛰어난, 미지불된",
+      "permit|허가하다, 허가증",
+      "postpone|연기하다",
+      "procedure|절차",
+      "purchase|구매하다, 구매",
+      "recruit|모집하다, 채용하다",
+      "refund|환불",
+      "regarding|~에 관하여",
+      "reliable|믿을 수 있는",
+      "renovate|수리하다, 개조하다",
+      "replace|교체하다",
+      "require|요구하다, 필요로 하다",
+      "reservation|예약",
+      "schedule|일정, 예정하다",
+      "shipment|배송, 선적",
+      "submit|제출하다",
+      "supervisor|관리자, 감독관",
+      "temporary|임시의",
+      "thorough|철저한",
+      "transfer|이전하다, 이동하다",
+      "urgent|긴급한",
+      "vacant|비어 있는",
+      "warranty|보증, 보증서",
+      "absent|결석한, 부재중인",
+      "access|접근, 이용 권한",
+      "account|계좌, 거래처, 설명",
+      "accurate|정확한",
+      "achieve|달성하다",
+      "acknowledge|인정하다, 확인하다",
+      "acquire|획득하다",
+      "activate|작동시키다, 활성화하다",
+      "additional|추가의",
+      "adequate|충분한, 적절한",
+      "adjust|조정하다, 적응하다",
+      "administration|관리, 행정",
+      "advance|진전, 사전의",
+      "advertise|광고하다",
+      "affordable|감당할 수 있는, 저렴한",
+      "agency|대행사, 기관",
+      "agreement|계약, 동의",
+      "alternative|대안, 대체의",
+      "annual|연례의, 매년의",
+      "anticipate|예상하다",
+      "apologize|사과하다",
+      "application|지원서, 신청서",
+      "appointment|약속, 임명",
+      "appreciate|감사하다, 진가를 인정하다",
+      "appropriate|적절한",
+      "approximately|대략",
+      "arrangement|준비, 배열",
+      "assemble|조립하다, 모이다",
+      "assess|평가하다",
+      "assist|돕다",
+      "associate|관련시키다, 동료",
+      "assume|가정하다, 맡다",
+      "assure|보장하다",
+      "attach|첨부하다, 붙이다",
+      "authorize|승인하다, 권한을 주다",
+      "available|이용 가능한",
+      "aware|알고 있는",
+      "balance|잔액, 균형",
+      "branch|지점, 부서",
+      "brief|간단한, 보고하다",
+      "brochure|안내 책자",
+      "budget|예산",
+      "bulk|대량, 대부분",
+      "calculate|계산하다",
+      "cancel|취소하다",
+      "career|경력, 직업",
+      "caution|주의",
+      "certificate|증명서",
+      "chairperson|의장",
+      "charge|요금, 청구하다",
+      "circulate|회람하다, 순환하다",
+      "client|고객",
+      "collaborate|협력하다",
+      "colleague|동료",
+      "commence|시작하다",
+      "commercial|상업의, 광고",
+      "commission|수수료, 위원회",
+      "commitment|약속, 헌신",
+      "commute|통근하다",
+      "compare|비교하다",
+      "compensation|보상, 급여",
+      "competitive|경쟁력 있는",
+      "complete|완료하다, 완전한",
+      "complex|복잡한",
+      "component|부품, 구성 요소",
+      "comprehensive|포괄적인",
+      "concern|우려, 관련되다",
+      "condition|조건, 상태",
+      "conduct|수행하다, 행동",
+      "confirm|확인하다",
+      "conflict|충돌, 갈등",
+      "consider|고려하다",
+      "consult|상담하다",
+      "consumer|소비자",
+      "contact|연락하다, 연락처",
+      "contain|포함하다",
+      "contribute|기여하다",
+      "cooperate|협력하다",
+      "coordinate|조정하다",
+      "corporate|기업의",
+      "costly|비용이 많이 드는",
+      "courier|배송업체, 배달원",
+      "cover|포함하다, 덮다",
+      "credentials|자격, 증명서",
+      "crucial|중요한",
+      "currently|현재",
+      "customize|맞춤 제작하다",
+      "decline|거절하다, 감소하다",
+      "dedicated|헌신적인, 전용의",
+      "deficit|적자, 부족액",
+      "deliver|배송하다, 전달하다",
+      "deposit|보증금, 입금하다",
+      "describe|묘사하다, 설명하다",
+      "desirable|바람직한",
+      "despite|~에도 불구하고",
+      "determine|결정하다, 알아내다",
+      "develop|개발하다, 발전시키다",
+      "directly|직접적으로",
+      "directory|주소록, 명부",
+      "distribute|배포하다, 분배하다",
+      "diverse|다양한",
+      "document|문서, 기록하다",
+      "domestic|국내의, 가정의",
+      "durable|내구성이 있는",
+      "earnings|수익, 소득",
+      "effectively|효과적으로",
+      "electronic|전자의",
+      "emergency|비상사태",
+      "emphasize|강조하다",
+      "employee|직원",
+      "employer|고용주",
+      "enclose|동봉하다",
+      "encounter|마주치다, 직면하다",
+      "enhance|향상시키다",
+      "enroll|등록하다",
+      "entire|전체의",
+      "equipment|장비",
+      "establish|설립하다, 확립하다",
+      "evaluate|평가하다",
+      "eventually|결국",
+      "exceed|초과하다",
+      "excellent|훌륭한",
+      "exceptional|예외적인, 뛰어난",
+      "exhibit|전시하다, 전시회",
+      "expectation|기대",
+      "expertise|전문 지식",
+      "expire|만료되다",
+      "extend|연장하다, 확장하다",
+      "extensive|광범위한",
+      "external|외부의",
+      "familiar|익숙한",
+      "feasible|실현 가능한",
+      "financial|재정의, 금융의",
+      "flexible|유연한",
+      "fluctuate|변동하다",
+      "forecast|예측, 예보",
+      "former|이전의",
+      "founder|창립자",
+      "fragile|깨지기 쉬운",
+      "fulfill|이행하다, 충족하다",
+      "function|기능, 작동하다",
+      "generate|창출하다, 발생시키다",
+      "gradually|점차적으로",
+      "grant|승인하다, 보조금",
+      "guarantee|보장하다, 보증",
+      "handle|처리하다",
+      "headquarters|본사",
+      "hesitate|망설이다",
+      "immediate|즉각적인",
+      "impact|영향",
+      "implement|시행하다, 구현하다",
+      "improve|개선하다",
+      "incentive|장려금, 혜택",
+      "income|소득",
+      "indicate|나타내다",
+      "individual|개인의, 개인",
+      "industry|산업",
+      "inform|알리다",
+      "initial|초기의",
+      "initiative|계획, 주도권",
+      "inspect|검사하다",
+      "install|설치하다",
+      "instruction|지시, 설명서",
+      "insurance|보험",
+      "intend|의도하다",
+      "interest|관심, 이자",
+      "internal|내부의",
+      "interpret|해석하다",
+      "interrupt|방해하다",
+      "introduce|소개하다, 도입하다",
+      "investigate|조사하다",
+      "investment|투자",
+      "itinerary|여행 일정",
+      "journal|잡지, 일지",
+      "launch|출시하다, 시작하다",
+      "layout|배치, 설계",
+      "lease|임대차 계약",
+      "legal|법률의, 합법적인",
+      "limited|제한된",
+      "location|위치",
+      "manufacturer|제조업체",
+      "material|자료, 재료",
+      "measure|측정하다, 조치",
+      "membership|회원 자격",
+      "mention|언급하다",
+      "merge|합병하다",
+      "method|방법",
+      "modify|수정하다",
+      "monitor|감시하다, 확인하다",
+      "negotiate|협상하다",
+      "nominate|지명하다",
+      "objective|목표, 객관적인",
+      "occupation|직업",
+      "operate|운영하다, 작동하다",
+      "opportunity|기회",
+      "organization|조직",
+      "orientation|오리엔테이션, 방향",
+      "outcome|결과",
+      "overall|전반적인",
+      "oversee|감독하다",
+      "participant|참가자",
+      "participate|참여하다",
+      "payment|지불, 결제",
+      "performance|실적, 성과",
+      "personnel|직원, 인사부",
+      "persuade|설득하다",
+      "policy|정책, 규정",
+      "position|직위, 위치",
+      "potential|잠재적인",
+      "prefer|선호하다",
+      "preparation|준비",
+      "previous|이전의",
+      "priority|우선 사항",
+      "process|과정, 처리하다",
+      "productive|생산적인",
+      "professional|전문적인, 전문가",
+      "profit|이익",
+      "promote|홍보하다, 승진시키다",
+      "promptly|즉시",
+      "proposal|제안서",
+      "prospective|장래의, 유망한",
+      "provide|제공하다",
+      "publicity|홍보, 광고 효과",
+      "qualification|자격",
+      "quarterly|분기별의",
+      "receipt|영수증",
+      "recently|최근에",
+      "recommend|추천하다",
+      "record|기록, 기록하다",
+      "reduce|줄이다",
+      "refer|언급하다, 참조하다",
+      "reflect|반영하다",
+      "register|등록하다",
+      "regulation|규정",
+      "reject|거절하다",
+      "relocate|이전하다",
+      "remain|남아 있다",
+      "remind|상기시키다",
+      "renew|갱신하다",
+      "representative|대표자, 직원",
+      "abolish|폐지하다",
+      "abroad|해외로",
+      "absence|부재, 결석",
+      "absolute|절대적인",
+      "absorb|흡수하다",
+      "abstract|추상적인",
+      "abundant|풍부한",
+      "abuse|남용하다",
+      "accelerate|가속하다",
+      "accent|강조, 억양",
+      "acceptance|수락, 승인",
+      "accessory|부속품",
+      "accompany|동행하다",
+      "accomplish|성취하다",
+      "accordingly|그에 따라서",
+      "accountant|회계사",
+      "accounting|회계",
+      "accumulate|축적하다",
+      "accuse|고발하다",
+      "accustomed|익숙한",
+      "acid|산성의",
+      "acquaintance|지인",
+      "adapt|적응하다",
+      "addition|추가",
+      "address|처리하다, 주소",
+      "adequately|충분히",
+      "adhere|고수하다",
+      "administrative|관리의, 행정의",
+      "administrator|관리자",
+      "admission|입장, 입학",
+      "admit|인정하다",
+      "adopt|채택하다",
+      "advantage|이점",
+      "adverse|불리한",
+      "advice|조언",
+      "advise|조언하다",
+      "affair|일, 사건",
+      "affect|영향을 미치다",
+      "affiliate|제휴하다",
+      "afford|여유가 있다",
+      "agriculture|농업",
+      "aid|지원하다, 도움",
+      "airfare|항공료",
+      "alert|경고하다",
+      "alike|비슷한",
+      "alliance|동맹, 제휴",
+      "allowance|수당",
+      "alongside|나란히",
+      "alter|변경하다",
+      "ambition|야망",
+      "amend|수정하다",
+      "amount|총액, 양",
+      "analysis|분석",
+      "analyst|분석가",
+      "analyze|분석하다",
+      "announce|발표하다",
+      "announcement|공지",
+      "annually|매년",
+      "anxious|불안한, 열망하는",
+      "apparent|명백한",
+      "appeal|호소하다, 매력",
+      "appear|나타나다",
+      "appliance|가전제품",
+      "applicable|적용 가능한",
+      "appraisal|평가",
+      "approach|접근하다, 방법",
+      "approval|승인",
+      "archive|보관소",
+      "argue|주장하다",
+      "argument|논쟁, 주장",
+      "arise|발생하다",
+      "arrival|도착",
+      "article|기사, 물품",
+      "artificial|인공의",
+      "aspect|측면",
+      "asset|자산",
+      "assign|배정하다",
+      "assistance|지원",
+      "assistant|보조자",
+      "attain|달성하다",
+      "attempt|시도하다",
+      "attendee|참석자",
+      "attention|주의, 관심",
+      "authority|권한, 당국",
+      "automatic|자동의",
+      "automatically|자동으로",
+      "availability|이용 가능성",
+      "average|평균",
+      "avoidance|회피",
+      "award|상, 수여하다",
+      "background|배경",
+      "bankruptcy|파산",
+      "bargain|특가품, 흥정하다",
+      "barrier|장벽",
+      "basement|지하층",
+      "basis|기준, 근거",
+      "behalf|대신, 이익",
+      "behavior|행동",
+      "belong|속하다",
+      "bid|입찰",
+      "billing|청구",
+      "biography|전기",
+      "blame|비난하다",
+      "bonus|보너스",
+      "booking|예약",
+      "boundary|경계",
+      "brand|상표",
+      "briefly|간단히",
+      "broadcast|방송하다",
+      "builder|건설업자",
+      "bulletin|게시, 공지",
+      "cabinet|캐비닛",
+      "campaign|캠페인",
+      "capable|능력 있는",
+      "capital|자본, 수도",
+      "carrier|운송업체",
+      "catalog|목록, 카탈로그",
+      "category|범주",
+      "cater|음식을 제공하다",
+      "celebration|축하 행사",
+      "central|중앙의",
+      "certainty|확실성",
+      "certify|증명하다",
+      "challenge|도전, 문제",
+      "channel|경로, 채널",
+      "charity|자선",
+      "checkout|계산대, 결제",
+      "chef|요리사",
+      "chief|최고의, 책임자",
+      "circulation|유통, 순환",
+      "citation|인용",
+      "civil|시민의, 민간의",
+      "claim|주장하다, 청구",
+      "clarify|명확히 하다",
+      "classification|분류",
+      "classify|분류하다",
+      "clearance|정리, 허가",
+      "clerk|직원, 점원",
+      "climate|기후, 분위기",
+      "closure|폐쇄",
+      "clue|단서",
+      "collaboration|협력",
+      "collection|수집, 징수",
+      "collector|수집가",
+      "combine|결합하다",
+      "comfort|편안함",
+      "comfortable|편안한",
+      "committed|헌신적인",
+      "committee|위원회",
+      "commodity|상품",
+      "companion|동반자",
+      "company|회사",
+      "comparative|비교의",
+      "competitor|경쟁자",
+      "complain|불평하다",
+      "complaint|불만, 항의",
+      "completion|완료",
+      "complicated|복잡한",
+      "composition|구성, 작문",
+      "concentrate|집중하다",
+      "conclusion|결론",
+      "conference|회의",
+      "confidence|신뢰, 자신감",
+      "confidential|기밀의",
+      "configuration|구성",
+      "conform|따르다",
+      "congestion|혼잡",
+      "connection|연결",
+      "conscious|의식하는",
+      "consent|동의",
+      "conserve|보존하다",
+      "consistent|일관된",
+      "constantly|끊임없이",
+      "construction|건설",
+      "consultant|상담가",
+      "consultation|상담",
+      "consumption|소비",
+      "contest|대회",
+      "context|맥락",
+      "contractor|계약자",
+      "contrary|반대의",
+      "convention|회의, 관습",
+      "convert|전환하다",
+      "convince|설득하다",
+      "cooperation|협력",
+      "copyright|저작권",
+      "correction|수정",
+      "correspond|일치하다, 서신 왕래하다",
+      "corridor|복도",
+      "council|위원회",
+      "counsel|조언하다",
+      "coupon|쿠폰",
+      "coverage|보장 범위",
+      "craft|기술, 공예",
+      "criticize|비판하다",
+      "currency|통화",
+      "customer|고객",
+      "customs|세관",
+      "dealer|판매업자",
+      "debate|토론",
+      "debt|부채",
+      "decade|10년",
+      "decent|괜찮은, 품위 있는",
+      "decision|결정",
+      "decrease|감소하다",
+      "defend|방어하다",
+      "definition|정의",
+      "delegate|대표자, 위임하다",
+      "deliberate|고의의, 신중한",
+      "delicate|섬세한",
+      "demand|수요, 요구하다",
+      "demonstration|시연, 증명",
+      "denial|거부",
+      "density|밀도",
+      "depend|의존하다",
+      "dependency|의존성",
+      "departure|출발",
+      "description|설명",
+      "destination|목적지",
+      "detail|세부사항",
+      "detailed|상세한",
+      "developer|개발자",
+      "development|개발",
+      "diagnosis|진단",
+      "diagram|도표",
+      "difference|차이",
+      "difficulty|어려움",
+      "dimension|치수, 측면",
+      "diploma|졸업장",
+      "director|이사, 책임자",
+      "disability|장애",
+      "disappoint|실망시키다",
+      "disaster|재난",
+      "disciplinary|징계의, 학문의",
+      "disclose|공개하다",
+      "discover|발견하다",
+      "discretion|재량",
+      "discuss|논의하다",
+      "dismiss|해고하다, 묵살하다",
+      "display|전시하다, 표시",
+      "disposal|처리, 처분",
+      "distance|거리",
+      "distinct|뚜렷한",
+      "distinguish|구별하다",
+      "district|지역",
+      "donation|기부",
+      "donor|기부자",
+      "downtown|도심의",
+      "draft|초안",
+      "dramatic|극적인",
+      "due|만기의, 예정된",
+      "duration|기간",
+      "duties|직무, 관세",
+      "eager|열망하는",
+      "economy|경제",
+      "efficiency|효율",
+      "either|둘 중 하나",
+      "election|선거",
+      "elegant|우아한",
+      "eliminate|제거하다",
+      "embassy|대사관",
+      "emission|배출",
+      "emotion|감정",
+      "emphasis|강조",
+      "encouragement|격려",
+      "endeavor|노력하다",
+      "energy|에너지",
+      "engagement|참여, 약속",
+      "engineering|공학",
+      "enormous|거대한",
+      "enquiry|문의",
+      "enterprise|기업",
+      "entertain|즐겁게 하다",
+      "entrance|입구",
+      "entrepreneur|기업가",
+      "environment|환경",
+      "equivalent|동등한",
+      "essential|필수적인",
+      "estate|부동산, 재산",
+      "ethical|윤리적인",
+      "evidence|증거",
+      "evolution|진화, 발전",
+      "examination|검사, 시험",
+      "exception|예외",
+      "exchange|교환하다",
+      "exclusive|독점적인",
+      "executive|임원",
+      "exercise|운동, 행사하다",
+      "exist|존재하다",
+      "existence|존재",
+      "expansion|확장",
+      "expect|기대하다",
+      "expedition|탐험, 원정",
+      "expenditure|지출",
+      "experience|경험",
+      "experiment|실험",
+      "explanation|설명",
+      "explore|탐구하다",
+      "export|수출하다",
+      "exposure|노출",
+      "extension|연장",
+      "extract|추출하다",
+      "factor|요인",
+      "failure|실패",
+      "fairly|상당히, 공정하게",
+      "fare|요금",
+      "fashion|유행, 패션",
+      "fatigue|피로",
+      "feature|특징",
+      "feedback|피드백",
+      "festival|축제",
+      "figure|수치, 인물",
+      "filing|서류 정리",
+      "firm|회사, 확고한",
+      "fiscal|재정의",
+      "fitness|건강, 적합성",
+      "flaw|결함",
+      "flight|항공편",
+      "fluent|유창한",
+      "formation|형성",
+      "formula|공식",
+      "forthcoming|다가오는",
+      "foundation|기초, 재단",
+      "freight|화물",
+      "frequently|자주",
+      "functionality|기능성",
+      "fund|자금",
+      "funding|자금 지원",
+      "furniture|가구",
+      "gallery|화랑",
+      "gather|모으다",
+      "general|일반적인",
+      "generous|관대한",
+      "genuine|진짜의",
+      "global|세계적인",
+      "government|정부",
+      "governor|지사, 총재",
+      "gradual|점진적인",
+      "graphic|도표의",
+      "grocery|식료품",
+      "growth|성장",
+      "guidance|안내",
+      "harbor|항구",
+      "hazard|위험",
+      "height|높이",
+      "highly|매우",
+      "holder|소유자",
+      "honor|명예, 존중하다",
+      "hospitality|환대",
+      "household|가정",
+      "housing|주택",
+      "identical|동일한",
+      "identify|확인하다",
+      "illustrate|설명하다, 삽화를 넣다",
+      "illustration|삽화, 설명",
+      "imagination|상상력",
+      "immigration|출입국 관리",
+      "importance|중요성",
+      "import|수입하다",
+      "impose|부과하다",
+      "improvement|개선",
+      "incidental|부수적인",
+      "incline|기울다, 경향이 있다",
+      "including|포함하여",
+      "incorporate|포함하다, 법인화하다",
+      "increase|증가하다",
+      "increasingly|점점 더",
+      "independent|독립적인",
+      "index|색인",
+      "indicator|지표",
+      "influence|영향",
+      "informal|비공식적인",
+      "information|정보",
+      "infrastructure|기반 시설",
+      "ingredient|재료",
+      "inquiry|문의",
+      "insight|통찰력",
+      "inspection|검사",
+      "inspector|검사관",
+      "inspiration|영감",
+      "instance|사례",
+      "institute|기관, 설립하다",
+      "institution|기관",
+      "instrument|도구, 악기",
+      "insufficient|불충분한",
+      "integration|통합",
+      "intelligence|지능",
+      "intention|의도",
+      "interaction|상호작용",
+      "interior|내부의",
+      "intermediate|중급의, 중간의",
+      "internship|인턴십",
+      "interpretation|해석",
+      "interruption|방해",
+      "interview|면접",
+      "invention|발명",
+      "investor|투자자",
+      "involvement|참여, 관련",
+      "issue|문제, 발행하다",
+      "joint|공동의",
+      "judgment|판단",
+      "junior|하급의",
+      "justice|정의",
+      "label|라벨, 표시하다",
+      "laboratory|실험실",
+      "landmark|주요 지형물",
+      "landscape|풍경",
+      "largely|주로",
+      "latest|최신의",
+      "latter|후자의",
+      "leadership|지도력",
+      "lecture|강의",
+      "legacy|유산",
+      "liability|책임, 부채",
+      "license|면허",
+      "lighting|조명",
+      "likewise|마찬가지로",
+      "limitation|제한",
+      "literature|문헌, 문학",
+      "livelihood|생계",
+      "lobby|로비, 압력을 넣다",
+      "locate|위치시키다",
+      "logic|논리",
+      "loyal|충성스러운",
+      "machinery|기계류",
+      "maintenance|유지보수",
+      "majority|다수",
+      "manageable|관리 가능한",
+      "management|관리",
+      "managerial|관리의",
+      "manual|설명서, 수동의",
+      "margin|이윤, 여백",
+      "marketplace|시장",
+      "marketing|마케팅",
+      "massive|거대한",
+      "measurement|측정",
+      "mechanic|정비사",
+      "mechanism|장치, 구조",
+      "media|매체",
+      "medication|약물",
+      "medium|중간의, 매체",
+      "merchandise|상품",
+      "merchant|상인",
+      "merger|합병",
+      "minimum|최소",
+      "minor|사소한",
+      "mission|임무",
+      "mistake|실수",
+      "mobility|이동성",
+      "moderate|보통의, 완화하다",
+      "modification|수정",
+      "motivate|동기를 부여하다",
+      "motivation|동기",
+      "municipal|시의",
+      "museum|박물관",
+      "mutual|상호의",
+      "narrative|이야기",
+      "nationwide|전국적인",
+      "necessity|필요성",
+      "negative|부정적인",
+      "negotiation|협상",
+      "network|네트워크",
+      "neutral|중립의",
+      "nomination|지명",
+      "notice|공지, 알아차리다",
+      "notion|개념",
+      "objection|반대",
+      "obligation|의무",
+      "observation|관찰",
+      "observer|관찰자",
+      "obstacle|장애물",
+      "occasion|경우, 행사",
+      "occupancy|점유, 이용률",
+      "offering|제공물",
+      "officially|공식적으로",
+      "offsite|현장 밖의",
+      "ongoing|진행 중인",
+      "opening|개장, 공석",
+      "operator|운영자",
+      "opponent|상대",
+      "opposed|반대하는",
+      "optimistic|낙관적인",
+      "option|선택권",
+      "ordinary|평범한",
+      "organic|유기농의, 조직적인",
+      "original|원래의",
+      "outdated|구식의",
+      "outlet|판매점",
+      "outline|개요",
+      "output|생산량, 출력",
+      "overhead|간접비",
+      "ownership|소유권",
+      "package|꾸러미, 포장하다",
+      "panel|토론단, 패널",
+      "parking|주차",
+      "partial|부분적인",
+      "particularly|특히",
+      "partner|협력자",
+      "partnership|협력 관계",
+      "passenger|승객",
+      "patent|특허",
+      "patron|고객, 후원자",
+      "payroll|급여 명부",
+      "penalty|벌금, 처벌",
+      "perceive|인식하다",
+      "percentage|비율",
+      "perception|인식",
+      "permanent|영구적인",
+      "permission|허가",
+      "personality|성격",
+      "perspective|관점",
+      "petition|청원",
+      "pharmaceutical|제약의",
+      "phenomenon|현상",
+      "photograph|사진",
+      "physician|의사",
+      "placement|배치",
+      "plaintiff|원고",
+      "planning|계획",
+      "platform|플랫폼",
+      "plenty|많음",
+      "portion|부분",
+      "portfolio|포트폴리오",
+      "possession|소유",
+      "postage|우편 요금",
+      "practical|실용적인",
+      "preference|선호",
+      "premises|사업장, 구내",
+      "prescription|처방전",
+      "presence|존재, 참석",
+      "presentation|발표",
+      "preserve|보존하다",
+      "pressure|압력",
+      "primarily|주로",
+      "principal|주요한, 교장",
+      "printer|프린터",
+      "privacy|사생활",
+      "probability|가능성",
+      "proceed|진행하다",
+      "proceeding|절차, 회의록",
+      "processor|처리 장치",
+      "producer|생산자",
+      "productivity|생산성",
+      "profile|개요, 프로필",
+      "projection|예상, 계획",
+      "prominent|두드러진",
+      "promotion|승진, 홍보",
+      "proof|증거",
+      "property|재산, 부동산",
+      "proportion|비율",
+      "protection|보호",
+      "provider|공급자",
+      "provision|제공, 조항",
+      "publicly|공개적으로",
+      "publication|출판물",
+      "publisher|출판사",
+      "punctual|시간을 잘 지키는",
+      "quantity|수량",
+      "questionnaire|설문지",
+      "rapidly|빠르게",
+      "rarely|드물게",
+      "rating|평가, 등급",
+      "readily|쉽게",
+      "realistic|현실적인",
+      "reasonable|합리적인",
+      "reception|접수, 환영회",
+      "recipe|요리법",
+      "recipient|수령인",
+      "recognition|인정, 인식",
+      "recognize|인정하다, 알아보다",
+      "recruitment|채용",
+      "reduction|감소",
+      "reference|참조, 추천서",
+      "regardless|상관없이",
+      "regional|지역의",
+      "registration|등록",
+      "regularly|정기적으로",
+      "relationship|관계",
+      "release|출시하다, 공개",
+      "relevant|관련 있는",
+      "reliability|신뢰성",
+      "reluctant|꺼리는",
+      "remark|언급하다",
+      "removal|제거",
+      "repeatedly|반복해서",
+      "replacement|교체품",
+      "reply|답장하다",
+      "reputation|평판",
+      "requirement|요구사항",
+      "research|연구",
+      "resident|거주자",
+      "resign|사임하다",
+      "resolution|해결, 결의안",
+      "resource|자원",
+      "respondent|응답자",
+      "response|응답",
+      "responsibility|책임",
+      "restriction|제한",
+      "resume|이력서",
+      "retail|소매",
+      "retailer|소매업자",
+      "retirement|퇴직",
+      "revenue|수익",
+      "revision|수정",
+      "reward|보상",
+      "route|경로",
+      "rural|시골의",
+      "safety|안전",
+      "salary|급여",
+      "sample|견본",
+      "satisfaction|만족",
+      "savings|저축",
+      "scenario|시나리오",
+      "scholarship|장학금",
+      "scientific|과학적인",
+      "scope|범위",
+      "screening|심사",
+      "seasonal|계절의",
+      "secure|안전한, 확보하다",
+      "security|보안",
+      "segment|부분",
+      "selection|선택",
+      "seminar|세미나",
+      "separately|별도로",
+      "service|서비스",
+      "settlement|합의, 정착",
+      "severe|심각한",
+      "shareholder|주주",
+      "shortage|부족",
+      "signature|서명",
+      "significantly|상당히",
+      "similar|비슷한",
+      "simulation|모의실험",
+      "sincerely|진심으로",
+      "slightly|약간",
+      "software|소프트웨어",
+      "solution|해결책",
+      "somewhat|다소",
+      "source|출처, 원천",
+      "specialist|전문가",
+      "specialize|전문화하다",
+      "specification|명세",
+      "sponsor|후원자",
+      "stable|안정적인",
+      "standard|기준, 표준",
+      "statement|진술서, 명세서",
+      "statistical|통계의",
+      "status|상태, 지위",
+      "strategy|전략",
+      "strength|강점, 힘",
+      "structure|구조",
+      "studio|작업실",
+      "subscription|구독",
+      "subsidy|보조금",
+      "substitute|대체하다",
+      "summary|요약",
+      "supplier|공급업체",
+      "supply|공급하다",
+      "supportive|지지하는",
+      "survey|조사",
+      "survival|생존",
+      "sustainable|지속 가능한",
+      "symptom|증상",
+      "systematic|체계적인",
+      "tablet|태블릿",
+      "target|목표",
+      "taxation|과세",
+      "technician|기술자",
+      "technology|기술",
+      "tendency|경향",
+      "tentative|잠정적인",
+      "terminal|터미널",
+      "territory|지역",
+      "textile|직물",
+      "therefore|그러므로",
+      "threat|위협",
+      "throughout|전체에 걸쳐",
+      "ticketing|발권",
+      "timetable|시간표",
+      "tolerance|관용, 허용치",
+      "tourism|관광",
+      "transaction|거래",
+      "transformation|변화",
+      "transit|운송, 환승",
+      "translation|번역",
+      "transportation|운송",
+      "trend|추세",
+      "trial|재판, 시험",
+      "trustworthy|신뢰할 수 있는",
+      "turnover|이직률, 매출",
+      "ultimate|최종의",
+      "unanimous|만장일치의",
+      "uncertain|불확실한",
+      "undertake|맡다",
+      "unemployment|실업",
+      "unexpected|예상치 못한",
+      "uniform|제복, 균일한",
+      "unique|독특한",
+      "university|대학교",
+      "unlikely|가능성이 낮은"
+    ];
+
+
+
+    // 단어가 alphabetical / 같은 표현 묶음 순서대로 나오지 않도록
+    // 전체 단어장을 한 번 섞어서 날짜별로 배정합니다.
+    // Math.random()을 쓰면 새로고침할 때마다 단어가 바뀌므로,
+    // 고정 seed 셔플을 사용해서 "랜덤처럼 섞이지만 항상 같은 순서"가 유지되게 했습니다.
+    function seededRandom(seed) {
+      let t = seed + 0x6D2B79F5;
+      return function() {
+        t += 0x6D2B79F5;
+        let r = Math.imul(t ^ (t >>> 15), 1 | t);
+        r ^= r + Math.imul(r ^ (r >>> 7), 61 | r);
+        return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+
+    function shuffleWithSeed(arr, seed) {
+      const copy = [...arr];
+      const random = seededRandom(seed);
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function getBucketKey(line) {
+      const word = String(line).split("|")[0].trim().toLowerCase();
+      return word.split(/\s+/)[0];
+    }
+
+    function buildMixedVocabLines(lines) {
+      // 정확히 같은 단어 줄은 제거
+      const uniqueLines = [...new Set(lines)];
+
+      // 같은 시작어(ex. alternative, external, initial)가 한 날짜 안에 반복되지 않도록
+      // 30개 단위(하루 3세트)로 섞습니다.
+      const bucketsMap = new Map();
+      uniqueLines.forEach((line) => {
+        const key = getBucketKey(line);
+        if (!bucketsMap.has(key)) bucketsMap.set(key, []);
+        bucketsMap.get(key).push(line);
+      });
+
+      const buckets = Array.from(bucketsMap.entries()).map(([key, items], idx) => ({
+        key,
+        items: shuffleWithSeed(items, 20260601 + idx)
+      }));
+
+      const DAYS_TOTAL = 214; // 2026-06-01 ~ 2026-12-31
+      const WORDS_PER_DATE_TOTAL = 30; // 하루 3세트 × 10단어
+      const targetCount = Math.min(uniqueLines.length, DAYS_TOTAL * WORDS_PER_DATE_TOTAL);
+      const mixed = [];
+      const random = seededRandom(20261231);
+      const recentKeys = [];
+
+      for (let day = 0; day < DAYS_TOTAL && mixed.length < targetCount; day++) {
+        const usedToday = new Set();
+
+        for (let slot = 0; slot < WORDS_PER_DATE_TOTAL && mixed.length < targetCount; slot++) {
+          const available = buckets.filter((bucket) => bucket.items.length > 0);
+          if (available.length === 0) break;
+
+          // 1순위: 오늘 아직 안 나온 시작어 + 최근에 덜 나온 시작어
+          let candidates = available.filter((bucket) => !usedToday.has(bucket.key) && !recentKeys.includes(bucket.key));
+
+          // 2순위: 오늘 아직 안 나온 시작어
+          if (candidates.length === 0) {
+            candidates = available.filter((bucket) => !usedToday.has(bucket.key));
+          }
+
+          // 3순위: 정말 단어가 부족한 경우만 아무 bucket이나 사용
+          if (candidates.length === 0) candidates = available;
+
+          // 많이 남은 bucket만 계속 고르는 문제를 피하려고 후보를 랜덤으로 고릅니다.
+          const picked = candidates[Math.floor(random() * candidates.length)];
+          mixed.push(picked.items.pop());
+          usedToday.add(picked.key);
+
+          recentKeys.push(picked.key);
+          if (recentKeys.length > 120) recentKeys.shift();
+        }
+      }
+
+      // 남는 단어가 있다면 뒤쪽에 붙이되, 기존 학습 범위에는 거의 영향이 없게 둡니다.
+      const leftovers = [];
+      buckets.forEach((bucket) => {
+        while (bucket.items.length > 0) leftovers.push(bucket.items.pop());
+      });
+
+      return mixed.concat(shuffleWithSeed(leftovers, 20270101));
+    }
+
+    const mixedRawVocab = buildMixedVocabLines(rawVocab);
+
+    const vocab = mixedRawVocab.map((line) => {
       const parts = line.split("|");
       return {
         word: parts[0],
@@ -555,200 +1455,319 @@
       };
     });
 
-    const WORDS_PER_DAY = 10;
-    const totalDays = Math.ceil(vocab.length / WORDS_PER_DAY);
+    const WORDS_PER_ROUND = 10;
+    const ROUNDS_PER_DATE = 3;
+    const START_DATE = new Date(2026, 5, 1);
+    const END_DATE = new Date(2026, 11, 31);
+    const STORAGE_PREFIX = "toeic_calendar_v2_random_";
 
-    let currentDay = Number(localStorage.getItem("toeic_current_day")) || 1;
+    let selectedDate = localStorage.getItem(STORAGE_PREFIX + "selected_date") || "2026-06-01";
+    let currentRound = Number(localStorage.getItem(roundStorageKey(selectedDate))) || getActiveRoundForDate(selectedDate);
     let hideMeanings = false;
     let currentQuiz = null;
+    let currentQuizResolved = false;
     let quizPool = [];
-    let answeredCorrect = new Set();
     let reviewMode = false;
+    let quizCardsBlurred = false;
+    let quizSessionActive = false;
+    let reviewSessionHadQuestions = false;
 
-    const daySelect = document.getElementById("daySelect");
+    const dateSelect = document.getElementById("dateSelect");
     const grid = document.getElementById("grid");
 
-    function init() {
-      for (let i = 1; i <= totalDays; i++) {
-        const opt = document.createElement("option");
-        opt.value = i;
-        opt.textContent = "Day " + i;
-        daySelect.appendChild(opt);
+    function pad(n) { return String(n).padStart(2, "0"); }
+    function toDateStr(date) { return date.getFullYear() + "-" + pad(date.getMonth() + 1) + "-" + pad(date.getDate()); }
+    function parseDate(str) { const [y, m, d] = str.split("-").map(Number); return new Date(y, m - 1, d); }
+    function formatKoreanDate(str) { const d = parseDate(str); return d.getFullYear() + "년 " + (d.getMonth() + 1) + "월 " + d.getDate() + "일"; }
+    function inRange(date) { return date >= START_DATE && date <= END_DATE; }
+    function dateIndex(str) { return Math.round((parseDate(str) - START_DATE) / 86400000); }
+    function roundStorageKey(dateStr) { return STORAGE_PREFIX + "current_round_" + dateStr; }
+    function knownKey(studyKey) { return STORAGE_PREFIX + "known_" + studyKey; }
+    function wrongKey() { return STORAGE_PREFIX + "wrong_" + selectedDate + "_r" + currentRound; }
+    function completeKey(dateStr, round) { return STORAGE_PREFIX + "complete_" + dateStr + "_r" + round; }
+    function isRoundComplete(dateStr, round) { return localStorage.getItem(completeKey(dateStr, round)) === "true"; }
+    function setRoundComplete(dateStr, round, value) {
+      if (value) localStorage.setItem(completeKey(dateStr, round), "true");
+      else localStorage.removeItem(completeKey(dateStr, round));
+    }
+    function isDateComplete(dateStr) { return [1, 2, 3].every((r) => isRoundComplete(dateStr, r)); }
+    function getActiveRoundForDate(dateStr) {
+      for (let r = 1; r <= ROUNDS_PER_DATE; r++) {
+        if (!isRoundComplete(dateStr, r)) return r;
+      }
+      return ROUNDS_PER_DATE;
+    }
+    function clampRoundForDate(dateStr, round) {
+      const n = Math.min(Math.max(Number(round) || 1, 1), ROUNDS_PER_DATE);
+      // 앞 세트를 완료하지 않았으면 다음 세트로 넘어가지 못하게 막습니다.
+      if (n > 1 && !isRoundComplete(dateStr, n - 1)) return getActiveRoundForDate(dateStr);
+      return n;
+    }
+    function starHtmlForDate(dateStr) {
+      let html = "";
+      for (let r = 1; r <= ROUNDS_PER_DATE; r++) {
+        html += '<span class="star ' + (isRoundComplete(dateStr, r) ? 'filled' : '') + '">★</span>';
+      }
+      return html;
+    }
+    function isKnown(studyKey) { return localStorage.getItem(knownKey(studyKey)) === "true"; }
+    function markKnown(studyKey) { localStorage.setItem(knownKey(studyKey), "true"); }
+    function unmarkKnown(studyKey) {
+      localStorage.removeItem(knownKey(studyKey));
+      setRoundComplete(selectedDate, currentRound, false);
+    }
+
+    function getVocabDateIndex(dateStr) {
+      const d = parseDate(dateStr);
+      const year = d.getFullYear();
+      const month = d.getMonth() + 1;
+      const day = d.getDate();
+
+      // 6월 초반 단어가 이미 학습한 내용이라서
+      // 6월 단어 묶음과 12월 단어 묶음을 서로 바꿉니다.
+      // 6월 1~30일 → 기존 12월 1~30일 단어 사용
+      // 12월 1~30일 → 기존 6월 1~30일 단어 사용
+      // 12월 31일은 대응되는 6월 31일이 없어서 기존 12월 31일 단어를 그대로 사용합니다.
+      if (year === 2026 && month === 6) {
+        return dateIndex("2026-12-" + pad(day));
       }
 
-      document.getElementById("prevBtn").addEventListener("click", () => setDay(currentDay - 1));
-      document.getElementById("nextBtn").addEventListener("click", () => setDay(currentDay + 1));
-      daySelect.addEventListener("change", () => setDay(Number(daySelect.value)));
+      if (year === 2026 && month === 12 && day <= 30) {
+        return dateIndex("2026-06-" + pad(day));
+      }
+
+      return dateIndex(dateStr);
+    }
+
+    function getStudyBaseIndex(dateStr, round) {
+      return (getVocabDateIndex(dateStr) * ROUNDS_PER_DATE * WORDS_PER_ROUND) + ((round - 1) * WORDS_PER_ROUND);
+    }
+    function getStudyItem(dateStr, round, slot) {
+      const absoluteIndex = getStudyBaseIndex(dateStr, round) + slot;
+      // 합성 표현(available capacity 같은 두 단어 조합)을 만들지 않고,
+      // 실제 등록된 단일 단어만 섞어서 배정합니다.
+      // 현재 내장 단어 수보다 전체 날짜 수가 많기 때문에, 부족한 구간은 단일 단어 풀 안에서 다시 섞어 사용합니다.
+      const mixedIndex = vocab.length ? ((absoluteIndex * 73 + 41) % vocab.length) : 0;
+      const item = vocab[mixedIndex];
+      if (!item) {
+        return {
+          word: "단어없음",
+          meaning: "단어 데이터가 없습니다",
+          example: "Please add vocabulary data.",
+          exampleMeaning: "단어 데이터를 추가해 주세요.",
+          studyKey: dateStr + "_r" + round + "_s" + slot,
+          slot,
+          displayNo: absoluteIndex + 1
+        };
+      }
+      return {
+        ...item,
+        studyKey: dateStr + "_r" + round + "_s" + slot,
+        slot,
+        displayNo: absoluteIndex + 1
+      };
+    }
+    function getTodayWords() {
+      return Array.from({ length: WORDS_PER_ROUND }, (_, i) => getStudyItem(selectedDate, currentRound, i));
+    }
+    function getAllDateWords(dateStr = selectedDate) {
+      const words = [];
+      for (let r = 1; r <= ROUNDS_PER_DATE; r++) {
+        for (let i = 0; i < WORDS_PER_ROUND; i++) {
+          words.push(getStudyItem(dateStr, r, i));
+        }
+      }
+      return words;
+    }
+    function isDateComplete(dateStr = selectedDate) {
+      for (let r = 1; r <= ROUNDS_PER_DATE; r++) {
+        if (!isRoundComplete(dateStr, r)) return false;
+      }
+      return true;
+    }
+    function getItemByStudyKey(studyKey) {
+      const m = String(studyKey).match(/^(\d{4}-\d{2}-\d{2})_r(\d+)_s(\d+)$/);
+      if (!m) return null;
+      return getStudyItem(m[1], Number(m[2]), Number(m[3]));
+    }
+
+    function init() {
+      document.getElementById("prevDateBtn").addEventListener("click", () => changeDate(-1));
+      document.getElementById("nextDateBtn").addEventListener("click", () => changeDate(1));
+      dateSelect.addEventListener("change", () => selectDate(dateSelect.value));
       document.getElementById("toggleBtn").addEventListener("click", toggleMeanings);
-      document.getElementById("resetBtn").addEventListener("click", resetToday);
+      document.getElementById("resetBtn").addEventListener("click", resetCurrentRound);
       document.getElementById("quizBtn").addEventListener("click", startNormalQuiz);
+      document.getElementById("addRoundBtn").addEventListener("click", addNextRound);
+      document.getElementById("studyBtn").addEventListener("click", returnToStudy);
       document.getElementById("answerBtn").addEventListener("click", showAnswer);
-      document.getElementById("nextQuizBtn").addEventListener("click", nextQuiz);
+      document.getElementById("nextQuizBtn").addEventListener("click", skipOrNextQuiz);
       document.getElementById("checkBtn").addEventListener("click", checkAnswer);
       document.getElementById("wrongQuizBtn").addEventListener("click", startWrongQuiz);
       document.getElementById("clearWrongBtn").addEventListener("click", clearTodayWrong);
-      document.getElementById("quizInput").addEventListener("keydown", (e) => {
-        if (e.key === "Enter") checkAnswer();
-      });
-
-      render();
-    }
-
-    function getStartIndex() {
-      return (currentDay - 1) * WORDS_PER_DAY;
-    }
-
-    function getTodayWords() {
-      return vocab.slice(getStartIndex(), getStartIndex() + WORDS_PER_DAY);
-    }
-
-    function knownKey(index) {
-      return "toeic_known_" + index;
-    }
-
-    function isKnown(index) {
-      return localStorage.getItem(knownKey(index)) === "true";
-    }
-
-    function setDay(day) {
-      if (day < 1) day = 1;
-      if (day > totalDays) day = totalDays;
-      currentDay = day;
-      localStorage.setItem("toeic_current_day", currentDay);
-      resetQuizView();
+      document.getElementById("quizInput").addEventListener("keydown", (e) => { if (e.key === "Enter") checkAnswer(); });
       render();
     }
 
     function render() {
-      const start = getStartIndex();
+      renderDatePicker();
+      renderCards();
+      renderCompleteList();
+      updateProgress();
+      updateWrongList();
+    }
+
+    function renderDatePicker() {
+      dateSelect.value = selectedDate;
+      const current = parseDate(selectedDate);
+      document.getElementById("prevDateBtn").disabled = toDateStr(current) === "2026-06-01";
+      document.getElementById("nextDateBtn").disabled = toDateStr(current) === "2026-12-31";
+    }
+
+    function changeDate(diff) {
+      const d = parseDate(selectedDate);
+      d.setDate(d.getDate() + diff);
+      if (!inRange(d)) return;
+      selectDate(toDateStr(d));
+    }
+
+    function selectDate(dateStr) {
+      const picked = parseDate(dateStr);
+      if (!dateStr || !inRange(picked)) {
+        dateSelect.value = selectedDate;
+        return;
+      }
+      selectedDate = dateStr;
+      localStorage.setItem(STORAGE_PREFIX + "selected_date", selectedDate);
+      currentRound = getActiveRoundForDate(selectedDate);
+      localStorage.setItem(roundStorageKey(selectedDate), String(currentRound));
+      quizCardsBlurred = false;
+      resetQuizView();
+      render();
+    }
+
+    function renderCards() {
       const todayWords = getTodayWords();
-
-      daySelect.value = currentDay;
-      document.getElementById("dayTitle").textContent = "Day " + currentDay;
-      document.getElementById("rangeText").textContent = (start + 1) + "번 ~ " + (start + todayWords.length) + "번";
-
+      document.getElementById("dayTitle").textContent = formatKoreanDate(selectedDate);
+      document.getElementById("roundText").textContent = currentRound + "세트";
+      document.getElementById("roundStars").innerHTML = starHtmlForDate(selectedDate);
       grid.innerHTML = "";
 
-      todayWords.forEach((item, i) => {
-        const globalIndex = start + i;
+      todayWords.forEach((item) => {
         const card = document.createElement("article");
         card.className = "card";
-
-        const knownClass = isKnown(globalIndex) ? "known done" : "known";
-        const knownText = isKnown(globalIndex) ? "외움 완료" : "체크";
-        const meanClass = hideMeanings ? "mean hidden" : "mean";
+        const knownClass = isKnown(item.studyKey) ? "known-status done" : "known-status";
+        const knownText = isKnown(item.studyKey) ? "외움 완료" : "문제 맞히면 체크";
+        const blurClass = quizCardsBlurred ? "quiz-blur" : "";
+        const meanClass = (hideMeanings || quizCardsBlurred) ? "mean hidden" : "mean";
+        const speakDisabled = quizCardsBlurred ? "disabled" : "";
 
         card.innerHTML = `
           <div>
-            <div class="num">#${globalIndex + 1}</div>
-            <div class="word">${item.word}</div>
+            <div class="num">#${item.displayNo} · ${currentRound}세트</div>
+            <div class="word ${blurClass}">${item.word}</div>
             <div class="${meanClass}">${item.meaning}</div>
-            <div class="ex">
+            <div class="ex ${blurClass}">
               <strong>예문</strong>: ${item.example}<br>
               <strong>뜻</strong>: ${item.exampleMeaning}
             </div>
           </div>
           <div class="bottom">
-            <button class="speak" data-word="${item.word}">듣기</button>
-            <button class="${knownClass}" data-index="${globalIndex}">${knownText}</button>
+            <button class="speak" data-word="${item.word}" ${speakDisabled}>듣기</button>
+            <div class="${knownClass}">${knownText}</div>
           </div>
         `;
-
         grid.appendChild(card);
       });
 
-      document.querySelectorAll(".speak").forEach((btn) => {
-        btn.addEventListener("click", () => speak(btn.dataset.word));
-      });
+      document.querySelectorAll(".speak").forEach((btn) => { btn.addEventListener("click", () => speak(btn.dataset.word)); });
+    }
 
-      document.querySelectorAll(".known").forEach((btn) => {
-        btn.addEventListener("click", () => toggleKnown(Number(btn.dataset.index)));
-      });
+    function renderCompleteList() {
+      const panel = document.getElementById("allCompletePanel");
+      const list = document.getElementById("allCompleteList");
+      if (!panel || !list) return;
 
-      updateProgress();
-      updateWrongList();
+      if (!isDateComplete(selectedDate)) {
+        panel.classList.remove("show");
+        list.innerHTML = "";
+        return;
+      }
+
+      panel.classList.add("show");
+      list.innerHTML = "";
+      getAllDateWords(selectedDate).forEach((item, index) => {
+        const div = document.createElement("div");
+        div.className = "complete-item";
+        div.innerHTML = `
+          <strong>${index + 1}. ${item.word}</strong>
+          <span>${item.meaning}</span>
+          <span>예문: ${item.example}</span>
+        `;
+        list.appendChild(div);
+      });
     }
 
     function updateProgress() {
-      const start = getStartIndex();
       let count = 0;
-      getTodayWords().forEach((_, i) => {
-        if (isKnown(start + i)) count++;
-      });
+      getTodayWords().forEach((item) => { if (isKnown(item.studyKey)) count++; });
       document.getElementById("knownCount").textContent = count;
       document.getElementById("bar").style.width = (count * 10) + "%";
 
-      const loveMessage = document.getElementById("loveMessage");
-      if (loveMessage) {
-        loveMessage.style.display = count === 10 ? "block" : "none";
-        loveMessage.textContent = "도현아 사랑해 💙";
+      const addRoundBtn = document.getElementById("addRoundBtn");
+      if (isRoundComplete(selectedDate, currentRound) && currentRound < ROUNDS_PER_DATE) {
+        addRoundBtn.style.display = "inline-block";
+        addRoundBtn.textContent = "하나더?! " + (currentRound + 1) + "세트 10단어 추가";
+      } else {
+        addRoundBtn.style.display = "none";
       }
     }
 
-    function toggleKnown(index) {
-      localStorage.setItem(knownKey(index), String(!isKnown(index)));
+    function addNextRound() {
+      if (!isRoundComplete(selectedDate, currentRound) || currentRound >= ROUNDS_PER_DATE) return;
+      currentRound += 1;
+      localStorage.setItem(roundStorageKey(selectedDate), String(currentRound));
+      quizCardsBlurred = false;
+      resetQuizView();
       render();
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     function toggleMeanings() {
       hideMeanings = !hideMeanings;
       document.getElementById("toggleBtn").textContent = hideMeanings ? "뜻 전체 보기" : "뜻 전체 가리기";
-      render();
+      renderCards();
     }
 
-    function resetToday() {
-      const start = getStartIndex();
-      getTodayWords().forEach((_, i) => {
-        localStorage.removeItem(knownKey(start + i));
-      });
+    function resetCurrentRound() {
+      getTodayWords().forEach((item) => localStorage.removeItem(knownKey(item.studyKey)));
+      localStorage.removeItem(wrongKey());
+      setRoundComplete(selectedDate, currentRound, false);
+      // 뒤 세트 완료 기록은 현재 세트가 깨지면 같이 지워서 별 순서가 꼬이지 않게 합니다.
+      for (let r = currentRound + 1; r <= ROUNDS_PER_DATE; r++) setRoundComplete(selectedDate, r, false);
+      quizCardsBlurred = false;
+      resetQuizView();
       render();
     }
 
     function speak(word) {
-      // 모바일 브라우저는 음성 목록이 늦게 로딩되거나,
-      // 같은 음성을 연속 재생할 때 바로 막히는 경우가 있어서 약간의 보정이 필요합니다.
       if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
         alert("이 브라우저에서는 듣기 기능을 지원하지 않습니다. 크롬이나 사파리 최신 버전으로 열어주세요.");
         return;
       }
-
       const play = () => {
         speechSynthesis.cancel();
-
         const u = new SpeechSynthesisUtterance(word);
-        u.lang = "en-US";
-        u.rate = 0.8;
-        u.pitch = 1;
-        u.volume = 1;
-
+        u.lang = "en-US"; u.rate = 0.8; u.pitch = 1; u.volume = 1;
         const voices = speechSynthesis.getVoices();
-        const englishVoice =
-          voices.find(v => v.lang === "en-US") ||
-          voices.find(v => v.lang && v.lang.toLowerCase().startsWith("en")) ||
-          voices[0];
-
-        if (englishVoice) {
-          u.voice = englishVoice;
-        }
-
-        setTimeout(() => {
-          speechSynthesis.speak(u);
-        }, 80);
+        const englishVoice = voices.find(v => v.lang === "en-US") || voices.find(v => v.lang && v.lang.toLowerCase().startsWith("en")) || voices[0];
+        if (englishVoice) u.voice = englishVoice;
+        setTimeout(() => speechSynthesis.speak(u), 80);
       };
-
-      const voices = speechSynthesis.getVoices();
-
-      if (voices.length === 0) {
-        speechSynthesis.onvoiceschanged = () => {
-          play();
-          speechSynthesis.onvoiceschanged = null;
-        };
-
-        // 일부 모바일 브라우저는 onvoiceschanged가 늦게 오거나 안 올 수 있어서 한 번 더 시도합니다.
+      if (speechSynthesis.getVoices().length === 0) {
+        speechSynthesis.onvoiceschanged = () => { play(); speechSynthesis.onvoiceschanged = null; };
         setTimeout(play, 300);
-      } else {
-        play();
-      }
+      } else play();
     }
 
     function shuffleArray(arr) {
@@ -758,56 +1777,48 @@
       }
       return arr;
     }
-
-    function normalizeAnswer(text) {
-      return String(text || "").trim().toLowerCase().replace(/\s+/g, "");
-    }
-
-    function wrongKey() {
-      return "toeic_wrong_day_" + currentDay;
-    }
-
+    function normalizeAnswer(text) { return String(text || "").trim().toLowerCase().replace(/\s+/g, ""); }
     function getWrongIndexes() {
       const saved = localStorage.getItem(wrongKey());
       if (!saved) return [];
       try {
-        return JSON.parse(saved).filter((n) => Number.isInteger(n));
-      } catch {
-        return [];
+        return JSON.parse(saved).filter((key) => typeof key === "string");
+      } catch { return []; }
+    }
+    function saveWrongIndexes(indexes) { localStorage.setItem(wrongKey(), JSON.stringify([...new Set(indexes)])); }
+    function addWrong(studyKey) {
+      const wrongs = getWrongIndexes();
+      if (!wrongs.includes(studyKey)) wrongs.push(studyKey);
+      saveWrongIndexes(wrongs);
+      updateWrongList();
+    }
+    function removeWrong(studyKey) {
+      saveWrongIndexes(getWrongIndexes().filter((key) => key !== studyKey));
+      updateWrongList();
+    }
+    function clearTodayWrong() {
+      // 오답 초기화는 오답 목록만 비웁니다.
+      // 문제풀이 창을 닫거나 현재 출제 중인 문제를 초기화하지 않습니다.
+      localStorage.removeItem(wrongKey());
+      updateWrongList();
+
+      const answerBox = document.getElementById("quizAnswer");
+      if (answerBox) {
+        answerBox.style.display = "block";
+        answerBox.className = "correct";
+        answerBox.textContent = "오답 목록이 초기화되었습니다. 현재 문제풀이는 그대로 이어서 진행할 수 있습니다.";
       }
     }
 
-    function saveWrongIndexes(indexes) {
-      const unique = [...new Set(indexes)];
-      localStorage.setItem(wrongKey(), JSON.stringify(unique));
-    }
-
-    function addWrong(index) {
-      const wrongs = getWrongIndexes();
-      if (!wrongs.includes(index)) wrongs.push(index);
-      saveWrongIndexes(wrongs);
-      updateWrongList();
-    }
-
-    function removeWrong(index) {
-      const wrongs = getWrongIndexes().filter((n) => n !== index);
-      saveWrongIndexes(wrongs);
-      updateWrongList();
-    }
-
-    function clearTodayWrong() {
-      localStorage.removeItem(wrongKey());
-      answeredCorrect = new Set();
-      resetQuizView();
-      updateWrongList();
-      render();
-    }
-
     function resetQuizView() {
+      const quizPanel = document.getElementById("quizPanel");
+      if (quizPanel) quizPanel.classList.remove("show");
       currentQuiz = null;
+      currentQuizResolved = false;
       quizPool = [];
-      answeredCorrect = new Set();
       reviewMode = false;
+      quizSessionActive = false;
+      reviewSessionHadQuestions = false;
       document.getElementById("quizModeText").textContent = "일반 복습 모드";
       document.getElementById("quizQuestion").textContent = "아직 문제가 없습니다.";
       document.getElementById("quizInput").value = "";
@@ -815,50 +1826,58 @@
       answerBox.style.display = "none";
       answerBox.textContent = "";
       answerBox.className = "";
-      document.getElementById("nextQuizBtn").disabled = false;
       const loveMessage = document.getElementById("loveMessage");
-      if (loveMessage) loveMessage.style.display = "none";
+      if (loveMessage) { loveMessage.style.display = "none"; loveMessage.textContent = ""; }
+    }
+
+    function returnToStudy() {
+      quizCardsBlurred = false;
+      resetQuizView();
+      render();
     }
 
     function startNormalQuiz() {
+      document.getElementById("quizPanel").classList.add("show");
       reviewMode = false;
-      answeredCorrect = new Set();
+      quizSessionActive = true;
+      reviewSessionHadQuestions = false;
+      quizCardsBlurred = true;
+      const loveMessage = document.getElementById("loveMessage");
+      if (loveMessage) { loveMessage.style.display = "none"; loveMessage.textContent = ""; }
+      renderCards();
+      updateWrongList();
 
-      // 오늘 단어 10개를 한 번씩만 출제합니다.
-      quizPool = getTodayWords().map((item, i) => ({
-        ...item,
-        globalIndex: getStartIndex() + i
-      }));
-
-      // 출제 순서만 랜덤으로 섞고, 이미 나온 문제는 다시 나오지 않게 합니다.
-      shuffleArray(quizPool);
-
+      quizPool = shuffleArray(getTodayWords().map((item) => ({ ...item })));
       document.getElementById("quizModeText").textContent = "일반 복습 모드: 10문제 중 0문제 풀이";
       nextQuiz();
     }
 
     function startWrongQuiz() {
+      document.getElementById("quizPanel").classList.add("show");
       const wrongs = getWrongIndexes();
       if (wrongs.length === 0) {
-        markTodayComplete();
+        currentQuiz = null;
+        quizPool = [];
+        reviewMode = false;
+        quizSessionActive = false;
+        reviewSessionHadQuestions = false;
+        quizCardsBlurred = false;
+        render();
         document.getElementById("quizModeText").textContent = "오답이 없습니다.";
-        document.getElementById("quizQuestion").textContent = "오답이 없어서 오늘 단어 10개가 외움 완료 처리되었습니다.";
+        document.getElementById("quizQuestion").textContent = "오답풀이할 문제가 없습니다. 먼저 일반 복습 문제를 풀어주세요.";
         const answerBox = document.getElementById("quizAnswer");
         answerBox.style.display = "block";
-        answerBox.className = "correct";
-        answerBox.textContent = "완료! 오늘 학습을 끝냈습니다.";
-        render();
+        answerBox.className = "";
+        answerBox.textContent = "오답 초기화 후에는 오답풀이만으로 학습 완료 처리되지 않습니다.";
         return;
       }
-
       reviewMode = true;
-      quizPool = wrongs.map((globalIndex) => ({
-        ...vocab[globalIndex],
-        globalIndex
-      })).filter((item) => item.word);
-
-      shuffleArray(quizPool);
-
+      quizSessionActive = true;
+      reviewSessionHadQuestions = true;
+      quizCardsBlurred = true;
+      renderCards();
+      updateWrongList();
+      quizPool = shuffleArray(wrongs.map(getItemByStudyKey).filter(Boolean));
       document.getElementById("quizModeText").textContent = "오답풀이 모드: 저장된 오답 " + quizPool.length + "개를 다시 풉니다.";
       nextQuiz();
     }
@@ -866,22 +1885,20 @@
     function nextQuiz() {
       document.getElementById("quizInput").value = "";
       document.getElementById("quizInput").focus();
-
       const answerBox = document.getElementById("quizAnswer");
       answerBox.style.display = "none";
       answerBox.className = "";
 
       if (quizPool.length === 0) {
         currentQuiz = null;
-
         if (reviewMode) {
-          if (getWrongIndexes().length === 0) {
-            markTodayComplete();
+          if (reviewSessionHadQuestions && getWrongIndexes().length === 0) {
+            markRoundComplete();
             document.getElementById("quizModeText").textContent = "오답풀이 완료";
-            document.getElementById("quizQuestion").textContent = "오답이 모두 없어졌습니다. 오늘 단어 10개가 외움 완료 처리되었습니다.";
+            document.getElementById("quizQuestion").textContent = "오답이 모두 없어졌습니다. 현재 세트 별이 채워졌습니다.";
             answerBox.style.display = "block";
             answerBox.className = "correct";
-            answerBox.textContent = "완료! 오늘 학습을 끝냈습니다.";
+            answerBox.textContent = "완료! 현재 세트를 끝냈습니다.";
           } else {
             document.getElementById("quizModeText").textContent = "오답풀이 1회 완료";
             document.getElementById("quizQuestion").textContent = "아직 오답이 남아 있습니다. 오답풀이 버튼을 눌러 다시 풀어보세요.";
@@ -889,100 +1906,115 @@
           render();
           return;
         }
-
-        // 일반 복습 10문제를 다 풀면 자동으로 오답풀이로 넘어갑니다.
+        if (!quizSessionActive) return;
         const wrongs = getWrongIndexes();
         if (wrongs.length > 0) {
           document.getElementById("quizModeText").textContent = "일반 복습 10문제 완료 → 오답풀이로 자동 이동";
           document.getElementById("quizQuestion").textContent = "오답 " + wrongs.length + "개가 있어 오답풀이를 시작합니다.";
           setTimeout(startWrongQuiz, 800);
         } else {
-          markTodayComplete();
+          markRoundComplete();
           document.getElementById("quizModeText").textContent = "일반 복습 완료";
-          document.getElementById("quizQuestion").textContent = "10문제를 모두 맞혔습니다. 오늘 단어 10개가 외움 완료 처리되었습니다.";
+          document.getElementById("quizQuestion").textContent = "10문제를 모두 맞혔습니다. 현재 세트 별이 채워졌습니다.";
           answerBox.style.display = "block";
           answerBox.className = "correct";
-          answerBox.textContent = "완료! 오답 없이 통과했습니다.";
+          answerBox.textContent = currentRound < ROUNDS_PER_DATE ? "완료! 하나더 버튼으로 다음 10단어를 열 수 있습니다." : "완료! 오늘 별 3개를 모두 채웠습니다.";
           render();
         }
         return;
       }
 
       currentQuiz = quizPool.shift();
-
+      currentQuizResolved = false;
       if (!reviewMode) {
-        const solved = 10 - quizPool.length;
+        const solved = WORDS_PER_ROUND - quizPool.length;
         document.getElementById("quizModeText").textContent = "일반 복습 모드: 10문제 중 " + solved + "문제 풀이";
       } else {
-        const totalWrongNow = getWrongIndexes().length;
-        document.getElementById("quizModeText").textContent = "오답풀이 모드: 남은 오답 " + totalWrongNow + "개";
+        document.getElementById("quizModeText").textContent = "오답풀이 모드";
       }
-
-      document.getElementById("quizQuestion").textContent =
-        "Q. '" + currentQuiz.meaning + "'에 해당하는 영어 단어는?";
+      document.getElementById("quizQuestion").textContent = "Q. '" + currentQuiz.meaning + "'에 해당하는 영어 단어는?";
     }
 
     function checkAnswer() {
-      if (!currentQuiz) {
-        startNormalQuiz();
-        return;
-      }
-
+      if (!currentQuiz) { startNormalQuiz(); return; }
       const userAnswer = document.getElementById("quizInput").value;
       const answerBox = document.getElementById("quizAnswer");
       const isCorrect = normalizeAnswer(userAnswer) === normalizeAnswer(currentQuiz.word);
-
       answerBox.style.display = "block";
-
       if (isCorrect) {
-        answeredCorrect.add(currentQuiz.globalIndex);
-        removeWrong(currentQuiz.globalIndex);
+        currentQuizResolved = true;
+        markKnown(currentQuiz.studyKey);
+        removeWrong(currentQuiz.studyKey);
+        renderCards();
+        updateProgress();
         answerBox.className = "correct";
         answerBox.textContent = "정답입니다! " + currentQuiz.word;
-
         setTimeout(() => {
-          if (reviewMode && getWrongIndexes().length === 0) {
-            quizPool = [];
-          }
+          if (reviewMode && getWrongIndexes().length === 0) quizPool = [];
           nextQuiz();
         }, 650);
       } else {
-        addWrong(currentQuiz.globalIndex);
+        currentQuizResolved = true;
+        unmarkKnown(currentQuiz.studyKey);
+        addWrong(currentQuiz.studyKey);
+        renderCards();
+        updateProgress();
         answerBox.className = "wrong";
-        answerBox.textContent =
-          "오답입니다. 입력한 답: " + (userAnswer || "빈칸") +
-          " / 정답: " + currentQuiz.word;
-
+        answerBox.textContent = "오답입니다. 입력한 답: " + (userAnswer || "빈칸") + " / 정답: " + currentQuiz.word;
         setTimeout(nextQuiz, 1100);
       }
     }
 
-    function showAnswer() {
+
+    function skipOrNextQuiz() {
       if (!currentQuiz) {
-        startNormalQuiz();
+        nextQuiz();
         return;
       }
 
-      addWrong(currentQuiz.globalIndex);
+      // 답을 체크하지 않고 다음 문제를 누르면 정답 처리하지 않습니다.
+      // 현재 문제를 오답으로 저장한 뒤 다음 문제로 넘어갑니다.
+      if (!currentQuizResolved) {
+        currentQuizResolved = true;
+        unmarkKnown(currentQuiz.studyKey);
+        addWrong(currentQuiz.studyKey);
+        renderCards();
+        updateProgress();
+      }
+
+      nextQuiz();
+    }
+
+    function showAnswer() {
+      if (!currentQuiz) { startNormalQuiz(); return; }
+      currentQuizResolved = true;
+      unmarkKnown(currentQuiz.studyKey);
+      addWrong(currentQuiz.studyKey);
+      renderCards();
+      updateProgress();
       const answer = document.getElementById("quizAnswer");
       answer.style.display = "block";
       answer.className = "wrong";
       answer.innerHTML = "정답: " + currentQuiz.word + "<br>예문: " + currentQuiz.example + "<br>예문 뜻: " + currentQuiz.exampleMeaning + "<br>정답 보기를 눌렀기 때문에 오답에 저장되었습니다. 다음 문제 버튼을 누르면 넘어갑니다.";
     }
 
-    function markTodayComplete() {
-      const start = getStartIndex();
-      getTodayWords().forEach((_, i) => {
-        localStorage.setItem(knownKey(start + i), "true");
-      });
+    function markRoundComplete() {
+      getTodayWords().forEach((item) => markKnown(item.studyKey));
       localStorage.removeItem(wrongKey());
-      updateWrongList();
-      updateProgress();
-
+      setRoundComplete(selectedDate, currentRound, true);
+      localStorage.setItem(roundStorageKey(selectedDate), String(currentRound));
+      quizCardsBlurred = false;
+      render();
       const loveMessage = document.getElementById("loveMessage");
       if (loveMessage) {
         loveMessage.style.display = "block";
-        loveMessage.textContent = "도현아 사랑해 💙";
+        loveMessage.textContent = getRandomCompleteMessage();
+      }
+      if (isDateComplete(selectedDate)) {
+        setTimeout(() => {
+          const panel = document.getElementById("allCompletePanel");
+          if (panel) panel.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 300);
       }
     }
 
@@ -990,13 +2022,17 @@
       const wrongs = getWrongIndexes();
       const box = document.getElementById("wrongList");
       if (!box) return;
-
+      if (reviewMode) {
+        box.style.display = "none";
+        box.textContent = "";
+        return;
+      }
+      box.style.display = "block";
       if (wrongs.length === 0) {
         box.textContent = "저장된 오답: 0개";
         return;
       }
-
-      const names = wrongs.map((index) => vocab[index]?.word).filter(Boolean);
+      const names = wrongs.map(getItemByStudyKey).filter(Boolean).map((item) => item.word);
       box.textContent = "저장된 오답 " + names.length + "개: " + names.join(", ");
     }
 
